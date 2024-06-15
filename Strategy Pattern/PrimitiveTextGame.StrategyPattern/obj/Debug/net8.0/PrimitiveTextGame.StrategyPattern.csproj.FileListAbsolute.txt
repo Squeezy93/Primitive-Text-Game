@@ -1,0 +1,14 @@
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\bin\Debug\net8.0\PrimitiveTextGame.StrategyPattern.exe
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\bin\Debug\net8.0\PrimitiveTextGame.StrategyPattern.deps.json
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\bin\Debug\net8.0\PrimitiveTextGame.StrategyPattern.runtimeconfig.json
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\bin\Debug\net8.0\PrimitiveTextGame.StrategyPattern.dll
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\bin\Debug\net8.0\PrimitiveTextGame.StrategyPattern.pdb
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\obj\Debug\net8.0\PrimitiveTextGame.StrategyPattern.GeneratedMSBuildEditorConfig.editorconfig
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\obj\Debug\net8.0\PrimitiveTextGame.StrategyPattern.AssemblyInfoInputs.cache
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\obj\Debug\net8.0\PrimitiveTextGame.StrategyPattern.AssemblyInfo.cs
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\obj\Debug\net8.0\PrimitiveTextGame.StrategyPattern.csproj.CoreCompileInputs.cache
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\obj\Debug\net8.0\PrimitiveTextGame.StrategyPattern.dll
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\obj\Debug\net8.0\refint\PrimitiveTextGame.StrategyPattern.dll
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\obj\Debug\net8.0\PrimitiveTextGame.StrategyPattern.pdb
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\obj\Debug\net8.0\PrimitiveTextGame.StrategyPattern.genruntimeconfig.cache
+C:\Обучение\Homework\Strategy Pattern\PrimitiveTextGame.StrategyPattern\obj\Debug\net8.0\ref\PrimitiveTextGame.StrategyPattern.dll

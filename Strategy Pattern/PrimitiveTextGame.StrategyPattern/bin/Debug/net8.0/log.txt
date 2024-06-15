@@ -1,0 +1,13 @@
+Player chose: Mage
+Enemy chose: Mage
+Enemy attacked with Fire, dealing 20 damage. Player's health is now 80.
+Enemy attacked with Dagger, dealing 15 damage. Player's health is now 65.
+Player attacked with Fire, dealing 20 damage. Enemy's health is now 80.
+Enemy attacked with Lightning, dealing 25 damage. Player's health is now 40.
+Player attacked with Lightning, dealing 25 damage. Enemy's health is now 55.
+Player attacked with Fire, dealing 20 damage. Enemy's health is now 35.
+Player attacked with Fire, dealing 20 damage. Enemy's health is now 15.
+Enemy attacked with Dagger, dealing 15 damage. Player's health is now 25.
+Enemy attacked with Fire, dealing 20 damage. Player's health is now 5.
+Player attacked with Fire, dealing 20 damage. Enemy's health is now -5.
+Player won with -5 health remaining. Turns to win 5.
