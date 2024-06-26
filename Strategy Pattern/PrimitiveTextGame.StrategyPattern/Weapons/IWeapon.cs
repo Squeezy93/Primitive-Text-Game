@@ -1,4 +1,4 @@
-﻿using PrimitiveTextGame.StrategyPattern.Characters;
+﻿using PrimitiveTextGame.Characters;
 
 namespace PrimitiveTextGame.StrategyPattern.Weapons
 {

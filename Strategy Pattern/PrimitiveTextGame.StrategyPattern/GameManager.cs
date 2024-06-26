@@ -1,0 +1,93 @@
+﻿using PrimitiveTextGame.Statistics;
+using PrimitiveTextGame.Utilites;
+
+namespace PrimitiveTextGame
+{
+    public class GameManager
+    {
+        private readonly GameStateManager _gameStateManager = new();
+
+        public void Initialize()
+        {
+            while (true)
+            {
+                if (!AskToContinue())
+                {
+                    if (AskToStartNewGame())
+                    {
+                        StartNewGame();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    LoadGame();
+                }
+            }
+        }
+
+        private bool AskToContinue()
+        {
+            Console.WriteLine("Would you like to continue? (yes/no)");
+            var input = Console.ReadLine()?.ToLower(System.Globalization.CultureInfo.CurrentCulture);
+            if (input == "yes")
+            {
+                return true;
+            }
+            else if (input == "no")
+            {
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter 'yes' or 'no'.");
+                return AskToContinue();
+            }
+        }
+
+        private bool AskToStartNewGame()
+        {
+            Console.WriteLine("Would you like to start a new game? (yes/no)");
+            var input = Console.ReadLine()?.ToLower(System.Globalization.CultureInfo.CurrentCulture);
+            if (input == "yes")
+            {
+                return true;
+            }
+            else if (input == "no")
+            {
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter 'yes' or 'no'.");
+                return AskToStartNewGame();
+            }
+        }
+
+        private void StartNewGame()
+        {
+            _gameStateManager.ClearGameState();
+            var player = CharacterHelper.CreatePlayerCharacter();
+            var game = new Game(player);
+            game.StartBattle();
+        }
+
+        private void LoadGame()
+        {
+            try
+            {
+                var state = _gameStateManager.LoadGameState();
+                var game = new Game(state.Player);
+                game.StartBattle();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading saved game: {ex.Message}");                
+            }
+        }
+    }
+}
+

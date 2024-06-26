@@ -1,4 +1,4 @@
-﻿namespace PrimitiveTextGame.StrategyPattern
+﻿namespace PrimitiveTextGame.Statistics
 {
     public interface ILogger
     {

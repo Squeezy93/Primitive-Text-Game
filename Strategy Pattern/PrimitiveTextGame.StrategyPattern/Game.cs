@@ -1,134 +1,138 @@
-﻿using PrimitiveTextGame.StrategyPattern.Characters;
-using PrimitiveTextGame.StrategyPattern.Weapons;
-using PrimitiveTextGame.StrategyPattern.Weapons.Knight;
-using PrimitiveTextGame.StrategyPattern.Weapons.Lumberjack;
-using PrimitiveTextGame.StrategyPattern.Weapons.Mage;
+﻿using PrimitiveTextGame.Statistics;
+using PrimitiveTextGame.Characters;
+using PrimitiveTextGame.Utilites;
 
-namespace PrimitiveTextGame.StrategyPattern
+namespace PrimitiveTextGame
 {
     public class Game
     {
         private readonly Random _random = new();
-        private readonly Character _player;
-        private readonly Character _enemy;
-        private readonly ILogger _logger;
-        
+        private readonly GameStateManager _gameStateManager = new();
+        private Character _player;
+        private Character _enemy;
+
         private int _playerTurn = 0;
         private int _enemyTurn = 0;
+        private int _playerTurnStreak = 0;
 
-        public Game(Character player, ILogger logger)
-        {        
-            _logger = logger;
+        public Game(Character player)
+        {
             _player = player;
-            _enemy = GenerateRandomCharacter();           
-        }
-
-        private Character GenerateRandomCharacter()
-        {
-            var characters = new Character[] { new Mage(), new Knight(), new Lumberjack() };
-            var character = characters[_random.Next(characters.Length)];
-            character.Weapon = GenerateRandomWeapon(character);
-
-            return character;
-        }
-
-        private IWeapon GenerateRandomWeapon(Character character)
-        {
-            IWeapon[] weapons;
-
-            if (character is Mage)
-                weapons = [new Lightning(), new Fire(), new Dagger()];
-            else if (character is Knight)
-                weapons = [new Spear(), new Knife(), new Sword()];
-            else
-                weapons = [new Axe(), new Log(), new BareHands()];
-
-            return weapons[_random.Next(weapons.Length)];
         }
 
         public void StartBattle()
         {
-            _logger.StartNewLog();
-            _logger.Log($"Player chose: {_player.Name}");
-            _logger.Log($"Enemy chose: {_player.Name}");
+            _enemy = CharacterHelper.GenerateRandomCharacter();
+
+            Console.WriteLine($"Player chose {_player.Name}");
+            Console.WriteLine($"Enemy chose {_enemy.Name}");
+
+            if (_player.Armors.Count == 0)
+            {
+                ArmorHelper.GenerateArmor(_player, 3);
+                foreach (var armor in _player.Armors)
+                {
+                    Console.WriteLine($"Player gained {armor.Name} with {armor.Value}% damage reduce.");
+                }
+            }
+            else
+            {
+                foreach (var armor in _player.Armors)
+                {
+                    Console.WriteLine($"Player gained {armor.Name} with {armor.Value} damage reduce.");
+                }
+            }
 
             while (_player.Health > 0 && _enemy?.Health > 0)
             {
                 bool playerTurn = _random.Next(2) == 0;
-                if (playerTurn)
-                {
-                    PlayerTurn();
-                }
-                else
-                {
-                    EnemyTurn();
-                }
+
+                ExecuteTurn(playerTurn);
             }
 
-            if(_player.Health <= 0)
+            if (_player.Health <= 0)
             {
-                _logger.Log($"Enemy won with {_enemy.Health} health remaining. Turns to win {_enemyTurn}.");
+                Console.WriteLine($"Enemy won with {_enemy?.Health} health remaining. Turns to win {_enemyTurn}.");
             }
             else
             {
-                _logger.Log($"Player won with {_enemy.Health} health remaining. Turns to win {_enemyTurn}.");
-            }           
-        }
-
-        private void DisplayAvailableWeapons(Character character)
-        {
-            IWeapon[] weapons;
-
-            if (character is Mage)
-                weapons = [new Lightning(), new Fire(), new Dagger()];
-            else if (character is Knight)
-                weapons = [new Spear(), new Knife(), new Sword()];
-            else
-                weapons = [new Axe(), new Log(), new BareHands()];
-
-            foreach (var weapon in weapons)
-            {
-                Console.WriteLine($"{weapon.Name} (Damage: {weapon.Damage})");
+                _gameStateManager.SaveGameState(_player);
+                Console.WriteLine($"Player won with {_player.Health} health remaining. Turns to win {_playerTurn}.");
             }
         }
 
-        private IWeapon CreateWeapon(string weaponChoice, Character character)
+        private void ExecuteTurn(bool playerTurn)
         {
-            return weaponChoice.ToLower(System.Globalization.CultureInfo.CurrentCulture) switch
+            if (playerTurn)
             {
-                "lightning" => new Lightning(),
-                "fire" => new Fire(),
-                "dagger" => new Dagger(),
-                "spear" => new Spear(),
-                "knife" => new Knife(),
-                "sword" => new Sword(),
-                "axe" => new Axe(),
-                "log" => new Log(),
-                "barehands" => new BareHands(),
-                _ => throw new ArgumentException("Invalid weapon choice"),
-            };
+                HandlePlayerTurn();
+            }
+            else
+            {
+                HandleEnemyTurn();
+            }
+        }
+
+        private void HandleEnemyTurn()
+        {
+            _playerTurnStreak = 0;
+            EnemyTurn();
+        }
+
+        private void HandlePlayerTurn()
+        {
+
+            _playerTurnStreak++;
+
+            if (_playerTurnStreak == 2)
+            {
+                HandlePlayerStreak();
+            }
+
+            PlayerTurn();
+        }
+
+        private void HandlePlayerStreak()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Streak!");
+            Console.ResetColor();
+
+            if (_enemy.Weapon == null)
+            {
+                var weapon = WeaponHelper.GenerateRandomWeapon(_enemy);
+                _enemy.SetWeapon(weapon);
+            }
+
+            ArmorHelper.UpgradeArmor(_enemy.Weapon, _player);
         }
 
         private void PlayerTurn()
         {
             Console.WriteLine("Choose your weapon:");
-            DisplayAvailableWeapons(_player);
+            WeaponHelper.DisplayAvailableWeapons(_player);
 
             var weaponChoice = Console.ReadLine();
-            _player.Weapon = CreateWeapon(weaponChoice, _player);
+            var weapon = WeaponHelper.CreateWeapon(weaponChoice);
+            _player.SetWeapon(weapon);
             _player.Attack(_enemy);
             _playerTurn++;
 
-            _logger.Log($"Player attacked with {_player.Weapon.Name}, dealing {_player.Weapon.Damage} damage. Enemy's health is now {_enemy.Health}.");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"Player attacked with {_player.Weapon.Name}, dealing {_player.Weapon.Damage} damage. Enemy's health is now {_enemy.Health}.");
+            Console.ResetColor();
         }
 
         private void EnemyTurn()
         {
-            _enemy.Weapon = GenerateRandomWeapon(_enemy);
+            var weapon = WeaponHelper.GenerateRandomWeapon(_enemy);
+            _enemy.SetWeapon(weapon);
             _enemy.Attack(_player);
-            _enemyTurn++;      
-            
-            _logger.Log($"Enemy attacked with {_enemy.Weapon.Name}, dealing {_enemy.Weapon.Damage} damage. Player's health is now {_player.Health}.");
+            _enemyTurn++;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Enemy attacked with {_enemy.Weapon.Name}, dealing {_enemy.Weapon.Damage} damage. Player's health is now {_player.Health}.");
+            Console.ResetColor();
         }
     }
 }

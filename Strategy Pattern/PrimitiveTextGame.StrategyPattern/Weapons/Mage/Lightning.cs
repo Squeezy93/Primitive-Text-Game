@@ -1,5 +1,5 @@
-﻿using PrimitiveTextGame.StrategyPattern.Characters;
-
+﻿using PrimitiveTextGame.Characters;
+    
 namespace PrimitiveTextGame.StrategyPattern.Weapons.Mage
 {
     public class Lightning : IWeapon
@@ -9,7 +9,7 @@ namespace PrimitiveTextGame.StrategyPattern.Weapons.Mage
 
         public void Attack(Character target)
         {
-            target.TakeDamage(Damage);
+            target.TakeDamage(Damage, this);            
         }
     }
 }

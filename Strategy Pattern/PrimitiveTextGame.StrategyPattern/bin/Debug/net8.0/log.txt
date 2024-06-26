@@ -1,13 +1,15 @@
 Player chose: Mage
-Enemy chose: Mage
-Enemy attacked with Fire, dealing 20 damage. Player's health is now 80.
-Enemy attacked with Dagger, dealing 15 damage. Player's health is now 65.
+Enemy chose: Knight
+Player gained Sword armor with 25% damage reduce
+Player gained Barehands armor with 25% damage reduce
+Player gained Fire armor with 10% damage reduce
 Player attacked with Fire, dealing 20 damage. Enemy's health is now 80.
-Enemy attacked with Lightning, dealing 25 damage. Player's health is now 40.
-Player attacked with Lightning, dealing 25 damage. Enemy's health is now 55.
-Player attacked with Fire, dealing 20 damage. Enemy's health is now 35.
-Player attacked with Fire, dealing 20 damage. Enemy's health is now 15.
-Enemy attacked with Dagger, dealing 15 damage. Player's health is now 25.
-Enemy attacked with Fire, dealing 20 damage. Player's health is now 5.
-Player attacked with Fire, dealing 20 damage. Enemy's health is now -5.
-Player won with -5 health remaining. Turns to win 5.
+Player attacked with Fire, dealing 20 damage. Enemy's health is now 60.
+Enemy attacked with Spear, dealing 25 damage. Player's health is now 75.
+Player attacked with Fire, dealing 20 damage. Enemy's health is now 40.
+Enemy attacked with Knife, dealing 20 damage. Player's health is now 57.
+Enemy attacked with Sword, dealing 30 damage. Player's health is now 34.
+Enemy attacked with Spear, dealing 25 damage. Player's health is now 9.
+Player attacked with Fire, dealing 20 damage. Enemy's health is now 20.
+Enemy attacked with Knife, dealing 20 damage. Player's health is now -9.
+Enemy won with 20 health remaining. Turns to win 5.

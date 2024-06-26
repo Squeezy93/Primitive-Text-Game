@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Обучение\\Homework\\Strategy Pattern\\PrimitiveTextGame.StrategyPattern\\PrimitiveTextGame.StrategyPattern.csproj",
-      "projectName": "PrimitiveTextGame.StrategyPattern",
-      "projectPath": "C:\\Обучение\\Homework\\Strategy Pattern\\PrimitiveTextGame.StrategyPattern\\PrimitiveTextGame.StrategyPattern.csproj",
+      "projectUniqueName": "C:\\Обучение\\Homework\\Strategy Pattern\\PrimitiveTextGame.StrategyPattern\\PrimitiveTextGame.csproj",
+      "projectName": "PrimitiveTextGame",
+      "projectPath": "C:\\Обучение\\Homework\\Strategy Pattern\\PrimitiveTextGame.StrategyPattern\\PrimitiveTextGame.csproj",
       "packagesPath": "C:\\Users\\squee\\.nuget\\packages\\",
       "outputPath": "C:\\Обучение\\Homework\\Strategy Pattern\\PrimitiveTextGame.StrategyPattern\\obj\\",
       "projectStyle": "PackageReference",
@@ -67,7 +67,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

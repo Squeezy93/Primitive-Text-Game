@@ -1,4 +1,4 @@
-﻿using PrimitiveTextGame.StrategyPattern.Characters;
+﻿using PrimitiveTextGame.Characters;
 
 namespace PrimitiveTextGame.StrategyPattern.Weapons.Lumberjack
 {
@@ -10,7 +10,7 @@ namespace PrimitiveTextGame.StrategyPattern.Weapons.Lumberjack
 
         public void Attack(Character target)
         {
-            target.TakeDamage(Damage);
+            target.TakeDamage(Damage, this);
         }
     }
 }
