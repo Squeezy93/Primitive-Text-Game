@@ -1,19 +1,18 @@
 ﻿using PrimitiveTextGame.Armors.ArmorsType;
-using PrimitiveTextGame.Armors.Decorator.DecoratedArmorTypes;
-using PrimitiveTextGame.Armors;
 using PrimitiveTextGame.Armors.Decorator;
-using PrimitiveTextGame.StrategyPattern.Weapons;
+using PrimitiveTextGame.Armors.Decorator.DecoratedArmorTypes;
 using PrimitiveTextGame.Characters;
+using PrimitiveTextGame.StrategyPattern.Weapons;
 
-namespace PrimitiveTextGame.Utilites
+namespace PrimitiveTextGame.Armors
 {
-    public static class ArmorHelper
+    public class ArmorManager
     {
-        private static readonly Random _random = new Random();
+        /*private readonly Random _random = new();
 
-        public static BaseArmor[] GenerateArmor(Character character, int count)
+        public ArmorDecorator[] GenerateArmor(Character character, int count)
         {
-            var armors = new BaseArmor[count];
+            var armors = new ArmorDecorator[count];
             var usedTypes = new HashSet<Type>();
 
             for (int i = 0; i < count; i++)
@@ -21,9 +20,8 @@ namespace PrimitiveTextGame.Utilites
                 var localArmorsType = new BaseArmor[] { new LightArmor(), new MediumArmor(), new HeavyArmor() };
                 var localArmorType = localArmorsType[_random.Next(localArmorsType.Length)];
 
-                BaseArmor localArmor = null;
-
-                var localArmors = new BaseArmor[]
+                ArmorDecorator localArmor = null;
+                var localArmors = new ArmorDecorator[]
                     {
                         new AxeArmor(localArmorType),
                         new BarehandsArmor(localArmorType),
@@ -38,17 +36,16 @@ namespace PrimitiveTextGame.Utilites
                 do
                 {
                     localArmor = localArmors[_random.Next(localArmors.Length)];
-                } 
+                }
                 while (!usedTypes.Add(localArmor.GetType()));
 
                 armors[i] = localArmor;
-                character.Armors.Add(localArmor);
             }
-            
+
             return armors;
         }
 
-        private static BaseArmor CreateArmor(IWeapon weapon)
+        private ArmorDecorator CreateArmor(IWeapon weapon)
         {
             var baseArmor = new LightArmor();
 
@@ -67,48 +64,21 @@ namespace PrimitiveTextGame.Utilites
             };
         }
 
-        private static BaseArmor UpgradeBaseArmor(BaseArmor armor)
+        private ArmorDecorator UpgradeBaseArmor(ArmorDecorator armor)
         {
-            if (armor is ArmorDecorator decorator)
-            {
-                var baseArmorName = decorator.GetBaseArmor().Name.ToLower();
+            var baseArmorName = armor.GetBaseArmor().Name.ToLower();
 
-                switch (baseArmorName)
-                {
-                    case "light armor":
-                        return decorator.SetArmor(new MediumArmor());
-                    case "medium armor":
-                        return decorator.SetArmor(new HeavyArmor());
-                    default:
-                        Console.WriteLine($"Cannot upgrade armor: {armor.Name}. Maximum armor level reached.");
-                        break;
-                }
-            }
-            return armor;
+            return baseArmorName switch
+            {
+                "light armor" => (ArmorDecorator)armor.SetArmor(new MediumArmor()),
+                "medium armor" => (ArmorDecorator)armor.SetArmor(new HeavyArmor()),
+                _ => armor
+            };
         }
 
-        public static void UpgradeArmor(IWeapon weapon, Character character)
+        private ArmorDecorator FindArmorMatchingWeapon(IWeapon weapon, Character character)
         {
-            BaseArmor existingArmor = FindArmorMatchingWeapon(weapon, character);
-
-            if (existingArmor == null)
-            {
-                BaseArmor newBaseArmor = CreateArmor(weapon);
-                character.Armors.Add(newBaseArmor);
-                Console.WriteLine($"You got {newBaseArmor.Name} for your streak!");
-            }
-            else
-            {
-                var armor = UpgradeBaseArmor(existingArmor);
-                character.Armors.Remove(existingArmor);
-                character.Armors.Add(armor);
-                Console.WriteLine($"You upgraded {armor.Name} for your streak to {armor.Value}%!");
-            }
-        }
-
-        private static BaseArmor FindArmorMatchingWeapon(IWeapon weapon, Character character)
-        {
-            foreach (var armor in character.Armors)
+            foreach (var armor in character.DecoratorArmors)
             {
                 if (armor.Name.ToLower().Contains(weapon.Name.ToLower()))
                 {
@@ -118,5 +88,23 @@ namespace PrimitiveTextGame.Utilites
 
             return null;
         }
+
+        public ArmorDecorator UpgradeArmor(IWeapon weapon, Character character)
+        {
+            ArmorDecorator existingArmor = FindArmorMatchingWeapon(weapon, character);
+
+            if (existingArmor == null) 
+            {
+                ArmorDecorator newArmor = CreateArmor(weapon);
+                Console.WriteLine($"You got {newArmor.Name} for you streak!");
+                return newArmor;
+            }
+            else
+            {
+                var armor = UpgradeBaseArmor(existingArmor);
+                Console.WriteLine($"You upgraded {armor.Name} for your streak to {armor.Value}%!");
+                return armor;
+            }
+        }*/
     }
 }

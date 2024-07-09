@@ -49,19 +49,29 @@ namespace PrimitiveTextGame.Utilites
 
         public static IWeapon CreateWeapon(string weaponChoice)
         {
-            return weaponChoice.ToLower(System.Globalization.CultureInfo.CurrentCulture) switch
+            while (true) 
             {
-                "lightning" => new Lightning(),
-                "fire" => new Fire(),
-                "dagger" => new Dagger(),
-                "spear" => new Spear(),
-                "knife" => new Knife(),
-                "sword" => new Sword(),
-                "axe" => new Axe(),
-                "log" => new Log(),
-                "barehands" => new BareHands(),
-                _ => throw new ArgumentException("Invalid weapon choice"),
-            };
+                return weaponChoice.ToLower(System.Globalization.CultureInfo.CurrentCulture) switch
+                {
+                    "lightning" => new Lightning(),
+                    "fire" => new Fire(),
+                    "dagger" => new Dagger(),
+                    "spear" => new Spear(),
+                    "knife" => new Knife(),
+                    "sword" => new Sword(),
+                    "axe" => new Axe(),
+                    "log" => new Log(),
+                    "barehands" => new BareHands(),
+                    _ => RetryWeaponSelection()
+                };
+            }
+        }
+
+        private static IWeapon RetryWeaponSelection()
+        {
+            Console.WriteLine("Invalid weapon choice, please choose again.");
+            string weaponChoice = Console.ReadLine();
+            return CreateWeapon(weaponChoice);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PrimitiveTextGame.Armors;
+using PrimitiveTextGame.Armors.Decorator;
 using PrimitiveTextGame.StrategyPattern.Weapons;
 
 namespace PrimitiveTextGame.Characters
@@ -8,7 +9,9 @@ namespace PrimitiveTextGame.Characters
         public int Health { get; protected set; } = 100;      
         public string Name { get; protected set; }        
         public IWeapon Weapon { get; private set; }       
-        public List<BaseArmor> Armors { get; set; } = new List<BaseArmor>();
+        public List<BaseArmor> Armors { get; set; } = new();
+        public List<ArmorDecorator> DecoratorArmors { get; private set; } = new();
+        private ArmorManager _armorManager= new();
 
         public void TakeDamage(IWeapon weapon)
         {
@@ -43,5 +46,25 @@ namespace PrimitiveTextGame.Characters
         public IWeapon SetWeapon(IWeapon weapon) => Weapon = weapon;
 
         public void SetHealth(int health) => Health = health;
+        
+        /*public void UpgradeArmor(IWeapon weapon)
+        {
+            var upgradedArmor = _armorManager.UpgradeArmor(weapon, this);
+            bool armorExist = DecoratorArmors.Any(armor => armor.Name == upgradedArmor.Name);
+            if (!armorExist)
+            {
+                DecoratorArmors.Add(upgradedArmor);
+            }
+        }
+
+        public void GenerateArmor(int count)
+        {
+            var armors = _armorManager.GenerateArmor(this, count);
+
+            foreach (var armor in armors)
+            {
+                DecoratorArmors.Add(armor);
+            }
+        }*/
     }
 }

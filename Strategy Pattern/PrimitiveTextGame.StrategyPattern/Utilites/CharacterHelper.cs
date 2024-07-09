@@ -17,7 +17,7 @@ namespace PrimitiveTextGame.Utilites
                 "mage" => new Mage(),
                 "knight" => new Knight(),
                 "lumberjack" => new Lumberjack(),
-                _ => throw new ArgumentException("Character is unknown")
+                _ => RetryCharacterSelection()
             };
             return player;
         }
@@ -28,6 +28,12 @@ namespace PrimitiveTextGame.Utilites
             var character = characters[_random.Next(characters.Length)];
 
             return character;
+        }
+
+        private static Character RetryCharacterSelection()
+        {
+            Console.WriteLine("Invalid character choise, please choose again.");
+            return CreatePlayerCharacter();
         }
     }
 }

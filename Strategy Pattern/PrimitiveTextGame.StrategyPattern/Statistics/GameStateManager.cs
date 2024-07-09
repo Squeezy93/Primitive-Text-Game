@@ -24,7 +24,6 @@ namespace PrimitiveTextGame.Statistics
 
             var jsonString = JsonConvert.SerializeObject(gameState, settings);
             File.WriteAllText(_filePath, jsonString);
-            Console.WriteLine("Game state was saved with health: " + character.Health);
         }
 
         public GameState LoadGameState()
@@ -36,20 +35,23 @@ namespace PrimitiveTextGame.Statistics
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Converters = new List<JsonConverter> { new CharacterConverter() }
             };
+
             GameState gameState = JsonConvert.DeserializeObject<GameState>(jsonString, settings);
+
             if (gameState == null) 
             {
                 return null;
             }
-            Console.WriteLine("Game state was loaded with health: " + gameState.Player.Health);
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"Game state was loaded. Character class is {gameState.Player.Name}. Hp = {gameState.Player.Health}");
+            Console.ResetColor();
+
             return gameState;
         }
 
         public void ClearGameState()
         {
             File.WriteAllText(_filePath, string.Empty);
-            Console.WriteLine("Game state has been cleared.");
         }
-
     }
 }

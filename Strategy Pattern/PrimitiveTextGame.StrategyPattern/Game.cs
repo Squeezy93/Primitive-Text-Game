@@ -39,7 +39,7 @@ namespace PrimitiveTextGame
             {
                 foreach (var armor in _player.Armors)
                 {
-                    Console.WriteLine($"Player gained {armor.Name} with {armor.Value} damage reduce.");
+                    Console.WriteLine($"Player gained {armor.Name} with {armor.Value}% damage reduce.");
                 }
             }
 
@@ -52,6 +52,7 @@ namespace PrimitiveTextGame
 
             if (_player.Health <= 0)
             {
+
                 _gameStateManager.ClearGameState();
                 Console.WriteLine($"Enemy won with {_enemy?.Health} health remaining. Turns to win {_enemyTurn}.");
             }
@@ -120,6 +121,10 @@ namespace PrimitiveTextGame
             _playerTurn++;
 
             Console.ForegroundColor = ConsoleColor.Magenta;
+            if (_enemy.Health <= 0)
+            {
+                _enemy.SetHealth(0);
+            }
             Console.WriteLine($"Player attacked with {_player.Weapon.Name}, dealing {_player.Weapon.Damage} damage. Enemy's health is now {_enemy.Health}.");
             Console.ResetColor();
         }
@@ -132,6 +137,10 @@ namespace PrimitiveTextGame
             _enemyTurn++;
 
             Console.ForegroundColor = ConsoleColor.Red;
+            if(_player.Health <= 0)
+            {
+                _player.SetHealth(0);
+            }
             Console.WriteLine($"Enemy attacked with {_enemy.Weapon.Name}, dealing {_enemy.Weapon.Damage} damage. Player's health is now {_player.Health}.");
             Console.ResetColor();
         }
