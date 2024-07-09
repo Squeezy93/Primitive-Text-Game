@@ -77,16 +77,15 @@ namespace PrimitiveTextGame
 
         private void LoadGame()
         {
-            try
+            var state = _gameStateManager.LoadGameState();
+            if (state == null)
             {
-                var state = _gameStateManager.LoadGameState();
-                var game = new Game(state.Player);
-                game.StartBattle();
+                Console.WriteLine("Cannot load game, game not found. Starting a new game.");
+                StartNewGame();
+                return;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading saved game: {ex.Message}");                
-            }
+            var game = new Game(state.Player);
+            game.StartBattle();
         }
     }
 }

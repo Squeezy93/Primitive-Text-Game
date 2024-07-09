@@ -23,9 +23,7 @@ namespace PrimitiveTextGame.Utilites
 
                 BaseArmor localArmor = null;
 
-                do
-                {
-                    var localArmors = new BaseArmor[]
+                var localArmors = new BaseArmor[]
                     {
                         new AxeArmor(localArmorType),
                         new BarehandsArmor(localArmorType),
@@ -37,10 +35,11 @@ namespace PrimitiveTextGame.Utilites
                         new SpearArmor(localArmorType),
                         new SwordArmor(localArmorType)
                     };
-
+                do
+                {
                     localArmor = localArmors[_random.Next(localArmors.Length)];
-
-                } while (!usedTypes.Add(localArmor.GetType()));
+                } 
+                while (!usedTypes.Add(localArmor.GetType()));
 
                 armors[i] = localArmor;
                 character.Armors.Add(localArmor);
@@ -72,7 +71,7 @@ namespace PrimitiveTextGame.Utilites
         {
             if (armor is ArmorDecorator decorator)
             {
-                var baseArmorName = decorator.GetBaseName().ToLower();
+                var baseArmorName = decorator.GetBaseArmor().Name.ToLower();
 
                 switch (baseArmorName)
                 {

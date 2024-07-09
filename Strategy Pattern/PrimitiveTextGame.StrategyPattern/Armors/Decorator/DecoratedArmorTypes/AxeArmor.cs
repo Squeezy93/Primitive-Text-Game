@@ -8,13 +8,13 @@ namespace PrimitiveTextGame.Armors.Decorator.DecoratedArmorTypes
     {
         public override string Name => "Axe armor";
 
-        public override int ReduceDamage(int damage, IWeapon weapon)
+        public override int ReduceDamage(IWeapon weapon)
         {
             if (WeaponHelper.IsWeaponType(weapon, typeof(Axe)))
             {
-                return base.ReduceDamage(damage, weapon);
+                return base.ReduceDamage(weapon);
             }
-            return damage;
+            return weapon.Damage;
         }
     }
 }

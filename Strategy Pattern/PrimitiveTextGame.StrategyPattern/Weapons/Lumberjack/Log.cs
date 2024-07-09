@@ -10,7 +10,7 @@ namespace PrimitiveTextGame.StrategyPattern.Weapons.Lumberjack
 
         public void Attack(Character target)
         {
-            target.TakeDamage(Damage, this);
+            target.TakeDamage(this);
         }
     }
 }

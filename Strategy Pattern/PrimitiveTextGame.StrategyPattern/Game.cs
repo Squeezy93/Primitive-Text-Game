@@ -52,6 +52,7 @@ namespace PrimitiveTextGame
 
             if (_player.Health <= 0)
             {
+                _gameStateManager.ClearGameState();
                 Console.WriteLine($"Enemy won with {_enemy?.Health} health remaining. Turns to win {_enemyTurn}.");
             }
             else

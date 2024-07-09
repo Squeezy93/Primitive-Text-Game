@@ -1,6 +1,5 @@
 ﻿using PrimitiveTextGame.Characters;
 using PrimitiveTextGame.Characters.Classes;
-using System;
 
 namespace PrimitiveTextGame.Utilites
 {

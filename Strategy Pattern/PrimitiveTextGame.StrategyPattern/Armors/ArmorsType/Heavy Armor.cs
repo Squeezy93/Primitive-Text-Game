@@ -9,9 +9,9 @@ namespace PrimitiveTextGame.Armors.ArmorsType
             Name = "Heavy armor";            
         }
 
-        public override int ReduceDamage(int damage, IWeapon weapon)
+        public override int ReduceDamage(IWeapon weapon)
         {
-            return damage - (damage * Value / 100);
+            return weapon.Damage - (weapon.Damage * Value / 100);
         }
     }
 }

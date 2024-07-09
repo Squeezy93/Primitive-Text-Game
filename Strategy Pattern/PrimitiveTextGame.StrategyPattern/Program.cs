@@ -4,8 +4,8 @@
     {
         static void Main(string[] args)
         {
-            var game = new GameManager();
-            game.Initialize();
+            var gameManager = new GameManager();
+            gameManager.Initialize();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace PrimitiveTextGame.StrategyPattern.Weapons.Knight
 
         public void Attack(Character target)
         {
-            target.TakeDamage(Damage, this);
+            target.TakeDamage(this);
         }
     }
 }

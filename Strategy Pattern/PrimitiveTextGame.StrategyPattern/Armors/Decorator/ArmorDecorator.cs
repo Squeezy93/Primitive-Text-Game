@@ -11,13 +11,13 @@ namespace PrimitiveTextGame.Armors.Decorator
             BaseArmor = armor;
         }
 
-        public override int ReduceDamage(int damage, IWeapon weapon)
+        public override int ReduceDamage(IWeapon weapon)
         {
             if (BaseArmor == null)
             {
                 throw new NullReferenceException(nameof(BaseArmor));
             }
-            return BaseArmor.ReduceDamage(damage, weapon);
+            return BaseArmor.ReduceDamage(weapon);
         }
 
         public BaseArmor SetArmor(BaseArmor armor)
@@ -27,6 +27,6 @@ namespace PrimitiveTextGame.Armors.Decorator
             return this;
         }
 
-        public string GetBaseName() => BaseArmor.Name;
+        public BaseArmor GetBaseArmor() => BaseArmor;
     }
 }

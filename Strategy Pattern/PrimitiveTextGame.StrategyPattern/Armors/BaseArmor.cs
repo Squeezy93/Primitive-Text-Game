@@ -2,11 +2,16 @@
 
 namespace PrimitiveTextGame.Armors
 {
-    public abstract class BaseArmor(int value)
+    public abstract class BaseArmor
     {
-        public int Value { get; protected set; } = value;
-        public virtual string Name { get; protected set; }       
+        public int Value { get; protected set; }
+  
+        public virtual string Name { get; protected set; }
 
-        public abstract int ReduceDamage(int damage, IWeapon weapon);
+        public BaseArmor(int value)
+        {
+            Value = value;
+        }
+        public abstract int ReduceDamage(IWeapon weapon);
     }
 }
