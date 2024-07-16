@@ -3,7 +3,7 @@ using PrimitiveTextGame.Characters;
 
 namespace PrimitiveTextGame.Statistics
 {
-    public class GameStateManager
+    public class JsonGameStateManager : IGameStateManager
     {
         private readonly string _filePath = "gameState.json";
 

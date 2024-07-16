@@ -5,7 +5,12 @@ namespace PrimitiveTextGame
 {
     public class GameManager
     {
-        private readonly GameStateManager _gameStateManager = new();
+        private readonly IGameStateManager _gameStateManager;
+
+        public GameManager(IGameStateManager gameStateManager) 
+        { 
+            _gameStateManager = gameStateManager;
+        }
 
         public void Initialize()
         {
@@ -71,7 +76,7 @@ namespace PrimitiveTextGame
         {
             _gameStateManager.ClearGameState();
             var player = CharacterHelper.CreatePlayerCharacter();
-            var game = new Game(player);
+            var game = new Game(player, _gameStateManager);
             game.StartBattle();
         }
 
@@ -84,7 +89,7 @@ namespace PrimitiveTextGame
                 StartNewGame();
                 return;
             }
-            var game = new Game(state.Player);
+            var game = new Game(state.Player, _gameStateManager);
             game.StartBattle();
         }
     }

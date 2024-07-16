@@ -10,7 +10,7 @@ public class CharacterConverter : JsonConverter
     public override bool CanConvert(Type objectType)
     {
         return typeof(Character).IsAssignableFrom(objectType);
-    }    
+    }
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
@@ -38,10 +38,8 @@ public class CharacterConverter : JsonConverter
 
                 armorsArray.Add(armorObject);
             }
-
             jo.Add("Armors", armorsArray);
         }
-
         jo.WriteTo(writer);
     }
 
@@ -49,61 +47,44 @@ public class CharacterConverter : JsonConverter
     {
         JObject jo = JObject.Load(reader);
         string nameTypeString = jo["Type"].ToString();
-        Type nameType = Type.GetType(nameTypeString);        
-
-        if (nameType == null)
-        {
-            throw new InvalidOperationException($"Unknown nameType: {nameTypeString}");
-        }
-        
+        Type nameType = Type.GetType(nameTypeString) ?? throw new InvalidOperationException($"Unknown nameType: {nameTypeString}");
 
         Character character = (Character)Activator.CreateInstance(nameType);
 
         int health = (int)jo["Health"];
         character.SetHealth(health);
 
-        if (jo["Armors"] != null) 
-        { 
+        if (jo["Armors"] != null)
+        {
             JArray armorsArray = (JArray)jo["Armors"];
             foreach (var item in armorsArray)
             {
-                string armorTypeString = item["ArmorType"].ToString();
-                Type armorType = Type.GetType(armorTypeString);
-                var armorValue = (int)item["ArmorValue"];
-
-                if (armorType == null)
-                {
-                    throw new InvalidOperationException($"Unknown type: {armorTypeString}");
-                }
-
-                BaseArmor baseArmor;
-                ArmorDecorator armor;
-
-                if (armorValue == 10)
-                {
-                    baseArmor = new LightArmor();
-                    armor = (ArmorDecorator)Activator.CreateInstance(armorType, baseArmor);
-                }
-                else if (armorValue == 25)
-                {
-                    baseArmor = new MediumArmor();
-                    armor = (ArmorDecorator)Activator.CreateInstance(armorType, baseArmor);
-                }
-                else if (armorValue == 50)
-                {
-                    baseArmor = new HeavyArmor();
-                    armor = (ArmorDecorator)Activator.CreateInstance(armorType, baseArmor);
-                }
-                else
-                {
-                    throw new InvalidOperationException($"Unknown type: {armorType}");
-                }
+                BaseArmor baseArmor = CreateBaseArmor((int)item["ArmorValue"]);
+                ArmorDecorator armor = CreateArmor(item, baseArmor);               
 
                 character.Armors.Add(armor);
             }
         }
-
         return character;
+    }
+
+    private BaseArmor CreateBaseArmor(int armorValue)
+    {
+        return armorValue switch
+        {
+            10 => new LightArmor(),
+            25 => new MediumArmor(),
+            50 => new HeavyArmor(),
+            _ => throw new InvalidOperationException($"Unknown armor value: {armorValue}")
+        };
+    }
+
+    private ArmorDecorator CreateArmor(JToken item, BaseArmor baseArmor)
+    {
+        string armorTypeString = item["ArmorType"].ToString();
+        Type armorType = Type.GetType(armorTypeString) ?? throw new InvalidOperationException($"Unknown type: {armorTypeString}");
+
+        return (ArmorDecorator)Activator.CreateInstance(armorType, baseArmor);
     }
 }
 

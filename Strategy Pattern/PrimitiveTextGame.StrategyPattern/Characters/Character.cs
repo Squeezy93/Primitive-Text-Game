@@ -10,8 +10,8 @@ namespace PrimitiveTextGame.Characters
         public string Name { get; protected set; }        
         public IWeapon Weapon { get; private set; }       
         public List<BaseArmor> Armors { get; set; } = new();
-        public List<ArmorDecorator> DecoratorArmors { get; private set; } = new();
-        private ArmorManager _armorManager= new();
+        /*public List<ArmorDecorator> DecoratorArmors { get; private set; } = new();
+        private ArmorManager _armorManager= new();*/
 
         public void TakeDamage(IWeapon weapon)
         {

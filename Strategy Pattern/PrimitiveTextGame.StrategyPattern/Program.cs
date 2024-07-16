@@ -1,10 +1,13 @@
-﻿namespace PrimitiveTextGame
+﻿using PrimitiveTextGame.Statistics;
+
+namespace PrimitiveTextGame
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            var gameManager = new GameManager();
+            IGameStateManager gameStateManager = new DatabaseGameStateManager();
+            var gameManager = new GameManager(gameStateManager);
             gameManager.Initialize();
         }
     }

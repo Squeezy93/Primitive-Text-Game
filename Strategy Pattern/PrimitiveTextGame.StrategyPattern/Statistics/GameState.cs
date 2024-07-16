@@ -4,6 +4,6 @@ namespace PrimitiveTextGame.Statistics
 {
     public record GameState
     {
-        public Character Player { get; set; }
+        public Character Player { get; set; }        
     }
 }

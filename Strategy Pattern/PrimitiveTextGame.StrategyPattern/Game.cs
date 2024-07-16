@@ -7,7 +7,7 @@ namespace PrimitiveTextGame
     public class Game
     {
         private readonly Random _random = new();
-        private readonly GameStateManager _gameStateManager = new();
+        private readonly IGameStateManager _gameStateManager;
         private Character _player;
         private Character _enemy;
 
@@ -15,8 +15,9 @@ namespace PrimitiveTextGame
         private int _enemyTurn = 0;
         private int _playerTurnStreak = 0;
 
-        public Game(Character player)
+        public Game(Character player, IGameStateManager gameStateManager)
         {
+            _gameStateManager = gameStateManager;
             _player = player;
         }
 
