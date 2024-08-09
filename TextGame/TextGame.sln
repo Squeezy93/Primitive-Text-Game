@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextGame.Domain", "src\TextGame.Domain\TextGame.Domain.csproj", "{5512C935-B6BE-42AC-8958-3CF4B397498C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextGame.Application", "src\TextGame.Application\TextGame.Application.csproj", "{5AAA35EE-D943-4F1F-B86B-498F8F450E30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5512C935-B6BE-42AC-8958-3CF4B397498C} = {5512C935-B6BE-42AC-8958-3CF4B397498C}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextGame.Infrastructure", "src\TextGame.Infrastructure\TextGame.Infrastructure.csproj", "{E3338587-6411-41F2-BE89-6ACBCD4EAB5D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5AAA35EE-D943-4F1F-B86B-498F8F450E30} = {5AAA35EE-D943-4F1F-B86B-498F8F450E30}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextGame.ConsoleApi", "src\TextGame.ConsoleApi\TextGame.ConsoleApi.csproj", "{D1F6CB02-6209-49C6-8DD8-DAED2F617CDE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5AAA35EE-D943-4F1F-B86B-498F8F450E30} = {5AAA35EE-D943-4F1F-B86B-498F8F450E30}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5512C935-B6BE-42AC-8958-3CF4B397498C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5512C935-B6BE-42AC-8958-3CF4B397498C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5512C935-B6BE-42AC-8958-3CF4B397498C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5512C935-B6BE-42AC-8958-3CF4B397498C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AAA35EE-D943-4F1F-B86B-498F8F450E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AAA35EE-D943-4F1F-B86B-498F8F450E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AAA35EE-D943-4F1F-B86B-498F8F450E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AAA35EE-D943-4F1F-B86B-498F8F450E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3338587-6411-41F2-BE89-6ACBCD4EAB5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3338587-6411-41F2-BE89-6ACBCD4EAB5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3338587-6411-41F2-BE89-6ACBCD4EAB5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3338587-6411-41F2-BE89-6ACBCD4EAB5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1F6CB02-6209-49C6-8DD8-DAED2F617CDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1F6CB02-6209-49C6-8DD8-DAED2F617CDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1F6CB02-6209-49C6-8DD8-DAED2F617CDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1F6CB02-6209-49C6-8DD8-DAED2F617CDE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA37D6F4-1EAC-4490-B8DB-489317A064E7}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,12 @@
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\bin\Debug\net8.0\TextGame.Infrastructure.deps.json
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\bin\Debug\net8.0\TextGame.Infrastructure.dll
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\bin\Debug\net8.0\TextGame.Infrastructure.pdb
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\obj\Debug\net8.0\TextGame.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\obj\Debug\net8.0\TextGame.Infrastructure.AssemblyInfoInputs.cache
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\obj\Debug\net8.0\TextGame.Infrastructure.AssemblyInfo.cs
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\obj\Debug\net8.0\TextGame.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\obj\Debug\net8.0\TextGame.Infrastructure.sourcelink.json
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\obj\Debug\net8.0\TextGame.Infrastructure.dll
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\obj\Debug\net8.0\refint\TextGame.Infrastructure.dll
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\obj\Debug\net8.0\TextGame.Infrastructure.pdb
+C:\Обучение\Homework\TextGame\src\TextGame.Infrastructure\obj\Debug\net8.0\ref\TextGame.Infrastructure.dll
