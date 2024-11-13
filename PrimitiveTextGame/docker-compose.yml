@@ -1,0 +1,12 @@
+﻿services:
+  primitivetextgame.telegram:
+    image: primitivetextgame.telegram
+    build:
+      context: .
+      dockerfile: PrimitiveTextGame.Telegram/Dockerfile
+
+  primitivetextgame.telegram-1:
+    image: primitivetextgame.telegram-1
+    build:
+      context: .
+      dockerfile: src/PrimitiveTextGame.Telegram/Dockerfile
