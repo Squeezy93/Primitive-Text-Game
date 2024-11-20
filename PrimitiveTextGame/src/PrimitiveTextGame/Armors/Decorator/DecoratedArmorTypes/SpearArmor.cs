@@ -1,6 +1,6 @@
-﻿using PrimitiveTextGame.StrategyPattern.Weapons;
-using PrimitiveTextGame.StrategyPattern.Weapons.Knight;
+﻿using PrimitiveTextGame.StrategyPattern.Weapons.Knight;
 using PrimitiveTextGame.Utilites;
+using PrimitiveTextGame.Weapons;
 
 namespace PrimitiveTextGame.Armors.Decorator.DecoratedArmorTypes
 {

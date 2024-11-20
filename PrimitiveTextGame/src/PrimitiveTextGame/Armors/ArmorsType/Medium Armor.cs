@@ -1,4 +1,4 @@
-﻿using PrimitiveTextGame.StrategyPattern.Weapons;
+﻿using PrimitiveTextGame.Weapons;
 
 namespace PrimitiveTextGame.Armors.ArmorsType
 {

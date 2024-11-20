@@ -2,8 +2,8 @@
 using PrimitiveTextGame.Armors.Decorator.DecoratedArmorTypes;
 using PrimitiveTextGame.Armors;
 using PrimitiveTextGame.Armors.Decorator;
-using PrimitiveTextGame.StrategyPattern.Weapons;
 using PrimitiveTextGame.Characters;
+using PrimitiveTextGame.Weapons;
 
 namespace PrimitiveTextGame.Utilites
 {

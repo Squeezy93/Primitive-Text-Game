@@ -1,6 +1,6 @@
 ﻿using PrimitiveTextGame.Armors;
 using PrimitiveTextGame.Armors.Decorator;
-using PrimitiveTextGame.StrategyPattern.Weapons;
+using PrimitiveTextGame.Weapons;
 
 namespace PrimitiveTextGame.Characters
 {

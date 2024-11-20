@@ -1,4 +1,5 @@
 ﻿using PrimitiveTextGame.Characters;
+using PrimitiveTextGame.Weapons;
 
 namespace PrimitiveTextGame.StrategyPattern.Weapons.Lumberjack
 {

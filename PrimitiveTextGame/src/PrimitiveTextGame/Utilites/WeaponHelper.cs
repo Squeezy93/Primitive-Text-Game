@@ -1,9 +1,9 @@
 ﻿using PrimitiveTextGame.Characters.Classes;
 using PrimitiveTextGame.Characters;
-using PrimitiveTextGame.StrategyPattern.Weapons;
 using PrimitiveTextGame.StrategyPattern.Weapons.Knight;
 using PrimitiveTextGame.StrategyPattern.Weapons.Lumberjack;
 using PrimitiveTextGame.StrategyPattern.Weapons.Mage;
+using PrimitiveTextGame.Weapons;
 
 namespace PrimitiveTextGame.Utilites
 {

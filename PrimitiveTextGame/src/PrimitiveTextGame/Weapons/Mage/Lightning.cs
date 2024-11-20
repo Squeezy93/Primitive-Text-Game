@@ -1,5 +1,6 @@
 ﻿using PrimitiveTextGame.Characters;
-    
+using PrimitiveTextGame.Weapons;
+
 namespace PrimitiveTextGame.StrategyPattern.Weapons.Mage
 {
     public class Lightning : IWeapon

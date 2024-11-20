@@ -1,11 +1,14 @@
 ﻿using PrimitiveTextGame.Characters;
 
-namespace PrimitiveTextGame.StrategyPattern.Weapons
+namespace PrimitiveTextGame.Weapons
 {
     public interface IWeapon
     {
         int Damage { get; }
         string Name { get; }
-        void Attack(Character target);
+        void Attack(Character target) 
+        {
+            target.TakeDamage(this);
+        }
     }
 }
