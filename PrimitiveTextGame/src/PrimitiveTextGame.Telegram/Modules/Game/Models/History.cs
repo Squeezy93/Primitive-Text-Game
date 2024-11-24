@@ -1,6 +1,11 @@
 namespace PrimitiveTextGame.Telegram.Modules.Game.Models;
 
-public class History
+public class History : BaseEntity<Guid>
 {
-	public Guid Id { get; set; }
+	public Guid UserId { get; set; }
+	public int Order { get; set; }
+	public int Damage { get; set; }
+	public Guid WeaponId { get; set; }
+	public Weapon Weapon { get; set; }
+	public int Health { get; set; }
 }

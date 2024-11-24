@@ -26,7 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Modules\Game\Data\Configurations\" />
       <Folder Include="Modules\Game\Data\Repositories\" />
     </ItemGroup>
 </Project>

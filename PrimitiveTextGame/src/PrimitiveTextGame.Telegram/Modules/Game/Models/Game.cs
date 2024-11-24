@@ -1,0 +1,13 @@
+using System.Reflection.PortableExecutable;
+
+namespace PrimitiveTextGame.Telegram.Modules.Game.Models;
+
+public class Game : BaseEntity<Guid>
+{
+	public List<User> Users { get; set; }
+	public DateTime StartDate { get; set; }
+	public DateTime EndDate { get; set; }
+	public User Winner { get; set; }
+	public Guid? WinnerId { get; set; }
+	public List<History> Histories { get; set; }
+}
