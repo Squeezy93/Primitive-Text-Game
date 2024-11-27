@@ -13,18 +13,24 @@ public class HistoryConfiguration : IEntityTypeConfiguration<History>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.UserId).IsRequired();
+        builder.Property(x => x.GameId).IsRequired();
+        builder.Property(x => x.WeaponId).IsRequired();
         builder.Property(x => x.Order).IsRequired();
         builder.Property(x => x.Damage).IsRequired();
-        builder.Property(x => x.WeaponId).IsRequired();
         builder.Property(x => x.Health).IsRequired();
         builder.Property(x => x.CreateDate).IsRequired();
         builder.Property(x => x.DeleteDate);
 
         builder.HasIndex(x => x.UserId);
+        builder.HasIndex(x => x.GameId);
 
         builder.HasOne(x => x.Game)
             .WithMany(x => x.Histories)
             .HasForeignKey(x => x.GameId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(x => x.Weapon)
+            .WithMany()
+            .HasForeignKey(x => x.WeaponId);
     }
 }

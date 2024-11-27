@@ -20,7 +20,7 @@ public class GameConfiguration : IEntityTypeConfiguration<Models.Game>
         builder.HasIndex(x => x.WinnerId);
 
         builder.HasMany(x => x.Histories)
-            .WithOne()
+            .WithOne(x => x.Game)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Winner)
