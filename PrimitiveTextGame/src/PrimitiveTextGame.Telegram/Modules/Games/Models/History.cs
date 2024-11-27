@@ -8,4 +8,6 @@ public class History : BaseEntity<Guid>
     public Guid WeaponId { get; set; }
     public Weapon Weapon { get; set; }
     public int Health { get; set; }
+    public Guid GameId { get; set; }
+    public Game Game { get; set; }
 }

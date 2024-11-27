@@ -20,6 +20,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.DeleteDate);
 
         builder.HasIndex(x => x.UserTelegramId);
+        builder.HasIndex(x => x.UserName);
 
         builder.HasMany(x => x.Weapons)
             .WithMany(x => x.Users)

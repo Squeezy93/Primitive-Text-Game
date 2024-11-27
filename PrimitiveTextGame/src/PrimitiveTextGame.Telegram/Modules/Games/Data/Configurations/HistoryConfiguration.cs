@@ -22,8 +22,9 @@ public class HistoryConfiguration : IEntityTypeConfiguration<History>
 
         builder.HasIndex(x => x.UserId);
 
-        builder.HasOne(x => x.Weapon)
-            .WithMany()
-            .HasForeignKey(x => x.WeaponId);
+        builder.HasOne(x => x.Game)
+            .WithMany(x => x.Histories)
+            .HasForeignKey(x => x.GameId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
