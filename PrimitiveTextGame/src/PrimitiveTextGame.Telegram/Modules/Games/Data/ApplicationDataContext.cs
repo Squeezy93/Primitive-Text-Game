@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PrimitiveTextGame.Telegram.Modules.Game.Models;
+using PrimitiveTextGame.Telegram.Modules.Games.Models;
 
 namespace PrimitiveTextGame.Telegram.Modules.Game.Data;
 
