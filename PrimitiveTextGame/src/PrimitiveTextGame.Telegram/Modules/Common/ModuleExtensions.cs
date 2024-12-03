@@ -2,7 +2,7 @@ namespace PrimitiveTextGame.Telegram.Modules.Common;
 
 public static class ModuleExtensions
 {
-    private static readonly List<IModule> registeredModules = new();// мы сюда не добавили наши зарегестрированные модули
+    
 
     public static IServiceCollection RegisterModules(this IServiceCollection services, IConfiguration configuration)
     {
@@ -15,6 +15,7 @@ public static class ModuleExtensions
 
         return services;
     }
+    
 
     private static IEnumerable<IModule> DiscoverModules()
     {
