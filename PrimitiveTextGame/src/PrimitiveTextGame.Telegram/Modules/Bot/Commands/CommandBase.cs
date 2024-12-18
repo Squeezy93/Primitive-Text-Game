@@ -1,4 +1,4 @@
-namespace PrimitiveTextGame.Telegram.Bot.Commands;
+namespace PrimitiveTextGame.Telegram.Modules.Bot.Commands;
 
 public abstract class CommandBase
 {

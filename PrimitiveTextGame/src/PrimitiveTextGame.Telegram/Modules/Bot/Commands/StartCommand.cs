@@ -2,11 +2,9 @@ using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Specifications;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using User = PrimitiveTextGame.Telegram.Modules.Games.Models.User;
 
-namespace PrimitiveTextGame.Telegram.Bot.Commands;
+namespace PrimitiveTextGame.Telegram.Modules.Bot.Commands;
 
 public class StartCommand : CommandBase, IBotCommand
 {

@@ -1,10 +1,10 @@
-using PrimitiveTextGame.Telegram.Bot.Commands;
+using PrimitiveTextGame.Telegram.Modules.Bot.Commands;
 using Telegram.Bot;
+using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Polling;
 
-namespace PrimitiveTextGame.Telegram.Bot;
+namespace PrimitiveTextGame.Telegram.Modules.Bot;
 
 public class BotProcess
     : BackgroundService
