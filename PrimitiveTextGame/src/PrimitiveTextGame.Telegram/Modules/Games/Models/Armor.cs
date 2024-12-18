@@ -1,3 +1,5 @@
+using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
+
 namespace PrimitiveTextGame.Telegram.Modules.Games.Models;
 
 public class Armor : BaseEntity<Guid>

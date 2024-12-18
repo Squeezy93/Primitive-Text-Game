@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PrimitiveTextGame.Telegram.Modules.Games.Models;
 
-namespace PrimitiveTextGame.Telegram.Modules.Game.Data;
+namespace PrimitiveTextGame.Telegram.Modules.Games.Data;
 
 public class ApplicationDataContext(DbContextOptions<ApplicationDataContext> options) : DbContext(options)
 {

@@ -19,7 +19,7 @@ public class BotProcess
         _telegramBotClient = telegramBotClient;
         _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
-        commandManager.RegisterCommand(new StartCommand());
+        commandManager.RegisterCommand(new StartCommand(serviceScopeFactory));
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -40,6 +40,8 @@ public class BotProcess
                 _logger.LogInformation("Processing message update..");
                 await MessageRoute(botClient, update);
                 break;
+            //case UpdateType.CallbackQuery:
+            //Домашка создать маршрут под callback и обработать создание игрока с нужным типом    
         }
     }
 
