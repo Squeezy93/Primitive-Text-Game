@@ -2,8 +2,6 @@ namespace PrimitiveTextGame.Telegram.Modules.Common;
 
 public static class ModuleExtensions
 {
-    
-
     public static IServiceCollection RegisterModules(this IServiceCollection services, IConfiguration configuration)
     {
         var modules = DiscoverModules();

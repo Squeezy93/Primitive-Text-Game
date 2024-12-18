@@ -18,11 +18,6 @@ public class ArmorConfiguration : IEntityTypeConfiguration<Armor>
         builder.Property(x => x.CreateDate).IsRequired();
         builder.Property(x => x.DeleteDate);
 
-        builder.HasIndex(x => x.Name);
-
-
-        /*builder.HasMany(x => x.Users)
-			.WithMany(x => x.Armors)
-			.UsingEntity(join => join.ToTable("UserArmors"));*/
+        builder.HasIndex(x => x.Name);        
     }
 }
