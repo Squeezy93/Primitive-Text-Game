@@ -4,7 +4,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace PrimitiveTextGame.Telegram.Modules.Bot.Commands;
+namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands;
 
 public class StartCommand : CommandBase, IBotCommand
 {

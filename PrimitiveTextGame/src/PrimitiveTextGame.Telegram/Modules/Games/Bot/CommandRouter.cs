@@ -1,9 +1,9 @@
-using PrimitiveTextGame.Telegram.Modules.Bot.Commands;
+using PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace PrimitiveTextGame.Telegram.Modules.Bot;
+namespace PrimitiveTextGame.Telegram.Modules.Games.Bot;
 
 internal class CommandRouter
 {

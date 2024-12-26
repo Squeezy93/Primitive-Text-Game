@@ -46,7 +46,7 @@ public class Repository<TEntity, TId>(ApplicationDataContext applicationDataCont
 	public void Update(TEntity entity) => applicationDataContext.Set<TEntity>().Update(entity);
 
 	public void Create(TEntity entity) => applicationDataContext.Set<TEntity>().Add(entity);
-
+	public void Create(IEnumerable<TEntity> entities) => applicationDataContext.Set<TEntity>().AddRange(entities);
 	public void Delete(TEntity entity) => applicationDataContext.Set<TEntity>().Remove(entity);
 
 	public async Task<bool> IsExists(ISpecification<TEntity> specification)

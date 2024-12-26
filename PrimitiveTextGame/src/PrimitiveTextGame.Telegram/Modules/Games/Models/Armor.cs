@@ -4,6 +4,13 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Models;
 
 public class Armor : BaseEntity<Guid>
 {
+    public Armor(ArmorLevel armorLevel, string name, ArmorType armorType)
+    {
+        ArmorLevel = armorLevel;
+        Name = name;
+        ArmorType = armorType;
+    }
+    
     public ArmorLevel ArmorLevel { get; set; }
     public string Name { get; set; }
     public ArmorType ArmorType { get; set; }

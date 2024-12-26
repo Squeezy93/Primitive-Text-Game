@@ -16,6 +16,14 @@ public class Character : BaseEntity<Guid>
         CharacterType = GetCharacterType(update);
         Name = CharacterType.ToString();
     }
+
+    public Character(CharacterType type, string name)
+    {
+        Health = 100;
+        CharacterType = type;
+        Name = name;
+    }
+    
     //ef
     private Character()
     {

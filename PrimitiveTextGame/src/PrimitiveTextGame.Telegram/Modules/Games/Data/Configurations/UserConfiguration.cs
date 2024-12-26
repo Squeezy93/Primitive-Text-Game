@@ -26,10 +26,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithMany(x => x.Users)
             .UsingEntity(join => join.ToTable("UserWeapons"));
 
-        builder.HasMany(x => x.Armors)
-            .WithMany(x => x.Users)
-            .UsingEntity(join => join.ToTable("UserArmors"));
-
         builder.HasMany(x => x.Games)
             .WithMany(x => x.Users)
             .UsingEntity(join => join.ToTable("UserGames"));
