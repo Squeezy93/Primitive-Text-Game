@@ -21,7 +21,7 @@ internal class CommandRouter
     {
         if (commands.Any(x => x.Prefix == command.Prefix))
         {
-            throw new ArgumentException($"A command with prefix \"{command.Prefix}\" already exists.", nameof(command));
+            throw new ArgumentException($"A commandFromMessage with prefix \"{command.Prefix}\" already exists.", nameof(command));
         }
 
         commands.Add(command);
@@ -29,20 +29,29 @@ internal class CommandRouter
 
     public async Task<bool> Execute(ITelegramBotClient botClient, Update update)
     {
-        if (update.Message.Type != MessageType.Text) return false;
-        if (!update.Message.Text.StartsWith(globalPrefix)) return false;
-
-        var command = commands.FirstOrDefault(cmd =>
-            update.Message.Text.TrimStart(globalPrefix)
-                .StartsWith(cmd.Prefix, StringComparison.InvariantCultureIgnoreCase));
-
-        if (command == null)
+        switch (update.Type)
         {
-            return false;
-        }
-        else
-        {
-            return await command.ExecuteAsync(botClient, update).ConfigureAwait(false);
+            case UpdateType.Message:
+                if (update.Message.Type != MessageType.Text) return false;
+                if (!update.Message.Text.StartsWith(globalPrefix)) return false;
+
+                var commandFromMessage = commands.FirstOrDefault(cmd =>
+                    update.Message.Text.TrimStart(globalPrefix)
+                        .StartsWith(cmd.Prefix, StringComparison.InvariantCultureIgnoreCase));
+
+                return commandFromMessage != null && await commandFromMessage.ExecuteAsync(botClient, update).ConfigureAwait(false);
+
+            case UpdateType.CallbackQuery:
+                var callbackData = update.CallbackQuery?.Data;
+                if(string.IsNullOrEmpty(callbackData)) return false;
+
+                var commandFromCallback = commands.FirstOrDefault(cmd =>
+                    callbackData.StartsWith(cmd.Prefix, StringComparison.InvariantCultureIgnoreCase));
+
+                return commandFromCallback != null && await commandFromCallback.ExecuteAsync(botClient,update).ConfigureAwait(false);
+
+            default: 
+                return false;
         }
     }
 }

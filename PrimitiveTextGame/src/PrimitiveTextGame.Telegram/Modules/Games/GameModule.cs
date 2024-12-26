@@ -16,6 +16,7 @@ public class GameModule : IModule
             options.UseNpgsql(configuration.GetConnectionString("PostgreSQLConnectionString")));
             
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICharacterRepository, CharacterRepository>();
         return services;
     }
 }

@@ -17,41 +17,38 @@ public class StartCommand : CommandBase, IBotCommand
 	public async Task<bool> ExecuteAsync(ITelegramBotClient botClient, Update update)
 	{
 		if (update.Message == null || update.Message.Chat == null) return false;
-
-		var responseText = "Привет! Добро пожаловать в текстовую игру. Введите команду для продолжения.";
 		
 		using var scope = ServiceScopeFactory.CreateAsyncScope();
 		var userRepository  = scope.ServiceProvider.GetRequiredService<IUserRepository>();
 		//логика распознования игрока
 		bool isUserExists = await userRepository.IsExists(new GetByUserTelegramId(update.Message.Chat.Id));
-		
-		if (isUserExists)
+
+        if (isUserExists)
 		{
 			var inlineMarkup = new InlineKeyboardMarkup()
-					.AddButton("Найти соперника", "search");
+					.AddButton("Найти соперника", "search")
+					.AddNewRow()
+					.AddButton("Поменять персонажа", "change_player_character")
+					.AddNewRow()
+					.AddButton("Покинуть игру", "quit_game");
 
-			await botClient.SendMessage(update.Message.Chat.Id, "Выбери героя!",
+			/*var user = await userRepository.GetAsync(new GetByUserTelegramId(update.Message.Chat.Id));*/
+			await botClient.SendMessage(update.Message.Chat.Id, $"Вы уже зарегестрированы. Что хотите сделать?",
 				replyMarkup: inlineMarkup);
 		}
 		else
 		{
-			/*
-			 * Knight,
-			   Mage,
-			   Lumberjack
-			 */
 			var inlineMarkup = new InlineKeyboardMarkup()
-				.AddButton("Рыцарь", "player_knight")
+				.AddButton("Рыцарь", "create_player_knight")
 				.AddNewRow()
-				.AddButton("Маг", "player_mage")
+				.AddButton("Маг", "create_player_mage")
 				.AddNewRow()
-				.AddButton("Лесоруб", "player_lumberjack")
+				.AddButton("Лесоруб", "create_player_lumberjack")
 				.AddNewRow();
 
 			await botClient.SendMessage(update.Message.Chat.Id, "Выбери героя!",
 				replyMarkup: inlineMarkup);
-		}
-		
+		}		
 		return true;
 	}
 }
