@@ -5,6 +5,6 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands;
 
 public interface IBotCommand
 {
-	string Prefix { get; }
-	Task<bool> ExecuteAsync(ITelegramBotClient botClient, Update update);
+    string Prefix { get; }
+    Task<bool> ExecuteAsync(ITelegramBotClient botClient, Update update);
 }

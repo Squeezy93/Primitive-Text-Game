@@ -21,6 +21,7 @@ public class BotProcess
         _serviceScopeFactory = serviceScopeFactory;
         commandManager.RegisterCommand(new StartCommand(serviceScopeFactory));
         commandManager.RegisterCommand(new CreatePlayerCommand(serviceScopeFactory));
+        commandManager.RegisterCommand(new SearchrGameCommand(serviceScopeFactory));
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)

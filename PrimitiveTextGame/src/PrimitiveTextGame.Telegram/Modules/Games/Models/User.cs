@@ -1,10 +1,11 @@
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
-using Telegram.Bot.Types;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Models;
 
 public class User : BaseEntity<Guid>
 {
+    public bool IsSearchingForGame { get; set; }
+    public bool IsPlayingGame { get; set; }
     public long UserTelegramId { get; set; }
     public string UserName { get; set; }
     public Character Character { get; set; }
@@ -16,17 +17,19 @@ public class User : BaseEntity<Guid>
     //ef
     private User()
     {
-        
+
     }
-    public User(Update update, Character character)
+    public User(long userTelegramId, string userName, Character character, List<Weapon> weapons, List<Armor> armors, List<Game> games = null)
     {
-        Id = new Guid();
-        UserTelegramId = update.CallbackQuery.From.Id;
-        UserName = update.CallbackQuery.From.Username;
+        Id = Guid.NewGuid();
+        UserTelegramId = userTelegramId;
+        UserName = userName;
+        IsSearchingForGame = false;
+        IsPlayingGame = false;
         Character = character;
         CharacterId = character.Id;
-        Weapons = new List<Weapon>();
-        Armors = new List<Armor>();
-        Games = new List<Game>();
-    }
+        Weapons = weapons ?? new List<Weapon>();
+        Armors = armors ?? new List<Armor>();
+        Games = games ?? new List<Game>();
+    }    
 }
