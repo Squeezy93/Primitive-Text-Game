@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PrimitiveTextGame.Telegram.Modules.Games.Data;
@@ -11,9 +12,11 @@ using PrimitiveTextGame.Telegram.Modules.Games.Data;
 namespace PrimitiveTextGame.Telegram.Modules.Games.Data.Migrations
 {
     [DbContext(typeof(ApplicationDataContext))]
-    partial class ApplicationDataContextModelSnapshot : ModelSnapshot
+    [Migration("20250115091106_ChangeUserConfiguration")]
+    partial class ChangeUserConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,6 +98,9 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Data.Migrations
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Health")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -190,9 +196,6 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Data.Migrations
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Health")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("IsPlayingGame")
                         .HasColumnType("boolean");

@@ -1,4 +1,4 @@
-namespace PrimitiveTextGame.Telegram.Modules.Common;
+namespace PrimitiveTextGame.Telegram.Modules.Common.Extensions;
 
 public static class ModuleExtensions
 {
@@ -11,7 +11,7 @@ public static class ModuleExtensions
         }
         return services;
     }
-    
+
     private static IEnumerable<IModule> DiscoverModules()
     {
         return typeof(IModule).Assembly

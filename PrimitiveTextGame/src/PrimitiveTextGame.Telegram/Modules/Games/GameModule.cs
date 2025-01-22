@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PrimitiveTextGame.Telegram.Modules.Common;
-using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
+using PrimitiveTextGame.Telegram.Modules.Common.Extensions;
+using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Repositories;
 using PrimitiveTextGame.Telegram.Modules.Games.Bot;
 using PrimitiveTextGame.Telegram.Modules.Games.Data;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Repositories;
@@ -29,7 +30,7 @@ public class GameModule : IModule
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICharacterRepository, CharacterRepository>();
         services.AddScoped<IArmorRepository, ArmorRepository>();
-        services.AddScoped<IWeaponRepository, WeaponRepository>();        
+        services.AddScoped<IWeaponRepository, WeaponRepository>();
 
         return services;
     }

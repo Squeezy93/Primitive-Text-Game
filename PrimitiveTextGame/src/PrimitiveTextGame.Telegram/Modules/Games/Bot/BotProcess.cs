@@ -16,12 +16,15 @@ public class BotProcess
 
     public BotProcess(ITelegramBotClient telegramBotClient, ILogger<BotProcess> logger, IServiceScopeFactory serviceScopeFactory)
     {
-        _telegramBotClient = telegramBotClient;
-        _logger = logger;
-        _serviceScopeFactory = serviceScopeFactory;
+        _telegramBotClient = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
         commandManager.RegisterCommand(new StartCommand(serviceScopeFactory));
         commandManager.RegisterCommand(new CreatePlayerCommand(serviceScopeFactory));
         commandManager.RegisterCommand(new SearchrGameCommand(serviceScopeFactory));
+        commandManager.RegisterCommand(new AcceptGameCommand(serviceScopeFactory));
+        commandManager.RegisterCommand(new DeclineGameCommand(serviceScopeFactory));
+        commandManager.RegisterCommand(new StopSearchingGameCommand(serviceScopeFactory));
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -38,7 +41,6 @@ public class BotProcess
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-
         switch (update.Type)
         {
             case UpdateType.Message:
@@ -56,7 +58,12 @@ public class BotProcess
     {
         if (update.CallbackQuery == null) return;
         await UserLogic(botClient,update).ConfigureAwait(false);
+    }
 
+    private async Task MessageRoute(ITelegramBotClient botClient, Update update)
+    {
+        if (update.Message == null) return;
+        await UserLogic(botClient, update).ConfigureAwait(false);
     }
 
     private Task HandlerErrorAsync(ITelegramBotClient botClient, Exception exception,
@@ -64,12 +71,6 @@ public class BotProcess
     {
         _logger.LogError(exception, "Error has occured in bot service!");
         return Task.CompletedTask;
-    }
-
-    private async Task MessageRoute(ITelegramBotClient botClient, Update update)
-    {
-        if (update.Message == null) return;
-        await UserLogic(botClient, update).ConfigureAwait(false);
     }
 
     private async Task UserLogic(ITelegramBotClient botClient, Update update)

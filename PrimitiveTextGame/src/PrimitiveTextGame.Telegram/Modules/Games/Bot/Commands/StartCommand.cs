@@ -1,4 +1,5 @@
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
+using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Repositories;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Specifications.UserSpecifications;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -6,7 +7,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands;
 
-public class StartCommand : CommandBase, IBotCommand
+public class StartCommand : ServiceScopeFactoryBase, IBotCommand
 {
     public StartCommand(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
     {

@@ -8,7 +8,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-
         builder.ToTable("Users");
 
         builder.HasKey(x => x.Id);
@@ -16,6 +15,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.UserTelegramId).IsRequired();
         builder.Property(x => x.UserName).IsRequired();
         builder.Property(x => x.CharacterId);
+        builder.Property(x => x.Health).IsRequired();
         builder.Property(x => x.IsSearchingForGame).IsRequired();
         builder.Property(x => x.IsPlayingGame).IsRequired();
         builder.Property(x => x.CreateDate).IsRequired();
@@ -25,8 +25,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(x => x.UserName);
 
         builder.HasOne(x => x.Character)
-            .WithOne()
-            .HasForeignKey<User>(x => x.CharacterId);
+            .WithMany(x => x.Users)
+            .HasForeignKey(x => x.CharacterId);
         builder.HasMany(x => x.Weapons)
             .WithMany(x => x.Users)
             .UsingEntity(join => join.ToTable("UserWeapons"));

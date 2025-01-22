@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
+using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Repositories;
 using PrimitiveTextGame.Telegram.Modules.Games.Data;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Implementations.Repositories;
 
 public class Repository<TEntity, TId>(ApplicationDataContext applicationDataContext)
     : IRepository<TEntity, TId>
-    where TEntity : BaseEntity<TId>
+    where TEntity : EntityBase<TId>
     where TId : IEquatable<TId>
 {
     public async Task<TEntity?> GetAsync(ISpecification<TEntity> specification)

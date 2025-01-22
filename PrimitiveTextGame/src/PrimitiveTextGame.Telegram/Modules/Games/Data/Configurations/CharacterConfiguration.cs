@@ -13,7 +13,6 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Name).IsRequired();
-        builder.Property(x => x.Health).IsRequired();
         builder.Property(x => x.CharacterType).IsRequired();
         builder.Property(x => x.CreateDate).IsRequired();
         builder.Property(x => x.DeleteDate);

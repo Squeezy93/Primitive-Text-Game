@@ -1,4 +1,5 @@
 ﻿using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
+using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Repositories;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Specifications.ArmorSpecifications;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Specifications.CharacterSpecifications;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Specifications.WeaponSpecifications;
@@ -10,7 +11,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
 {
-    internal class CreatePlayerCommand : CommandBase, IBotCommand
+    internal class CreatePlayerCommand : ServiceScopeFactoryBase, IBotCommand
     {
         public CreatePlayerCommand(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
         {

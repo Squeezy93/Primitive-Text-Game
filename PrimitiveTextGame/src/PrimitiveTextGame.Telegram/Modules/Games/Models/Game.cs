@@ -2,7 +2,7 @@ using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Models;
 
-public class Game : BaseEntity<Guid>
+public class Game : EntityBase<Guid>
 {
     public List<User> Users { get; set; }
     public DateTime StartDate { get; set; }

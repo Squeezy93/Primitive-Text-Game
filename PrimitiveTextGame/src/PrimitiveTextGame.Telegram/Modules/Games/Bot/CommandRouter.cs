@@ -5,10 +5,9 @@ using Telegram.Bot.Types.Enums;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Bot;
 
-internal class CommandRouter
+public class CommandRouter
 {
     private const char globalPrefix = '/';
-
     private readonly List<IBotCommand> commands = new List<IBotCommand>();
 
     public CommandRouter()
@@ -23,7 +22,6 @@ internal class CommandRouter
         {
             throw new ArgumentException($"A commandFromMessage with prefix \"{command.Prefix}\" already exists.", nameof(command));
         }
-
         commands.Add(command);
     }
 
@@ -38,7 +36,6 @@ internal class CommandRouter
                 var commandFromMessage = commands.FirstOrDefault(cmd =>
                     update.Message.Text.TrimStart(globalPrefix)
                         .StartsWith(cmd.Prefix, StringComparison.InvariantCultureIgnoreCase));
-
                 return commandFromMessage != null && await commandFromMessage.ExecuteAsync(botClient, update).ConfigureAwait(false);
 
             case UpdateType.CallbackQuery:
@@ -47,8 +44,7 @@ internal class CommandRouter
 
                 var commandFromCallback = commands.FirstOrDefault(cmd =>
                     callbackData.StartsWith(cmd.Prefix, StringComparison.InvariantCultureIgnoreCase));
-
-                return commandFromCallback != null && await commandFromCallback.ExecuteAsync(botClient,update).ConfigureAwait(false);
+                return commandFromCallback != null && await commandFromCallback.ExecuteAsync(botClient, update).ConfigureAwait(false);
 
             default: 
                 return false;

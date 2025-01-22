@@ -2,7 +2,7 @@ using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Models;
 
-public class History : BaseEntity<Guid>
+public class History : EntityBase<Guid>
 {
     public Guid UserId { get; set; }
     public User User { get; set; }

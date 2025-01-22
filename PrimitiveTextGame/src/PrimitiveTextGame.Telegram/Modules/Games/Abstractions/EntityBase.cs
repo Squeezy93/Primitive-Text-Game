@@ -1,9 +1,9 @@
 namespace PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
 
-public class BaseEntity<TId>
+public class EntityBase<TId>
     where TId : IEquatable<TId>
 {
-    public BaseEntity()
+    public EntityBase()
     {
         CreateDate = DateTime.UtcNow;
     }

@@ -2,7 +2,7 @@ using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Models;
 
-public class Weapon : BaseEntity<Guid>
+public class Weapon : EntityBase<Guid>
 {
     public Weapon(string name, CharacterType characterType, int damage)
     {
