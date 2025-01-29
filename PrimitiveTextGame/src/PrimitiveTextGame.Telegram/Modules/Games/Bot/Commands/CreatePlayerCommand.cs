@@ -11,7 +11,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
 {
-    internal class CreatePlayerCommand : ServiceScopeFactoryBase, IBotCommand
+    public class CreatePlayerCommand : ServiceScopeFactoryBase, IBotCommand
     {
         public CreatePlayerCommand(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
         {

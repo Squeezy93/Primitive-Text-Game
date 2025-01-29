@@ -89,15 +89,14 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Services
         public async Task<bool> HandleAttackCommand(string weaponName, long attackerId, long defenderId)
         {
             using var scope = ServiceScopeFactory.CreateAsyncScope();
-            var gameStateManager = scope.ServiceProvider.GetRequiredService<IGameStateService>();
-            var game = gameStateManager.GetGame(attackerId);
-            var attacker = game.Users.FirstOrDefault(p => p.UserTelegramId == attackerId);
-            var defender = game.Users.FirstOrDefault(p => p.UserTelegramId == defenderId);
+            var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+            var attacker = await userRepository.GetAsync(new GetByUserTelegramIdSpecification(attackerId));
+            var defender = await userRepository.GetAsync(new GetByUserTelegramIdSpecification(defenderId));
             var weapon = attacker?.Weapons.FirstOrDefault(w => w.Name == weaponName);
             defender.Health -= weapon.Damage;
             if (defender.Health <= 0)
             {
-                await EndBattle(attacker, defender);
+                await EndBattle(attacker, defender, userRepository);
             }
             else
             {
@@ -121,10 +120,9 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Services
                 replyMarkup: replyMarkupForUser);
         }
 
-        private async Task EndBattle(User attacker, User defender)
+        private async Task EndBattle(User attacker, User defender, IUserRepository userRepository)
         {
             using var scope = ServiceScopeFactory.CreateAsyncScope();
-            var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
             var gameStateManager = scope.ServiceProvider.GetRequiredService<IGameStateService>();
             gameStateManager.RemoveGame(attacker.UserTelegramId);
             gameStateManager.RemoveGame(defender.UserTelegramId);
@@ -134,7 +132,9 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Services
             defender.Health = 100;
             userRepository.Update(attacker);
             userRepository.Update(defender);
+            
             await userRepository.SaveChangesAsync();
+            
             var inlineMarkup = new InlineKeyboardMarkup()
                     .AddButton("Найти соперника", "search")
                     .AddNewRow()
@@ -146,7 +146,6 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Services
                 replyMarkup: inlineMarkup);
             await _botClient.SendMessage(defender.UserTelegramId, $"Вы проиграли. Победитель: {attacker.UserName}. Что хотите сделать?",
                 replyMarkup: inlineMarkup);
-            await userRepository.SaveChangesAsync();
         }
     }
 }
