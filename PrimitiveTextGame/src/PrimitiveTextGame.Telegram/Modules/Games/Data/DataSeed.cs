@@ -8,7 +8,7 @@ public  static class DataSeed
 {
     public static async Task SeedDataAsync(IServiceScopeFactory serviceScopeFactory)
     {
-        await using var scope = serviceScopeFactory.CreateAsyncScope();
+        await using var scope = serviceScopeFactory.CreateAsyncScope();        
         var characterRepository = scope.ServiceProvider.GetRequiredService<ICharacterRepository>();
         var armorRepository = scope.ServiceProvider.GetRequiredService<IArmorRepository>();
         var weaponRepository = scope.ServiceProvider.GetRequiredService<IWeaponRepository>();

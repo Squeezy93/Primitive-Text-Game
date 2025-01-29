@@ -19,12 +19,13 @@ public class BotProcess
         _telegramBotClient = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
-        commandManager.RegisterCommand(new StartCommand(serviceScopeFactory));
-        commandManager.RegisterCommand(new CreatePlayerCommand(serviceScopeFactory));
-        commandManager.RegisterCommand(new SearchrGameCommand(serviceScopeFactory));
-        commandManager.RegisterCommand(new AcceptGameCommand(serviceScopeFactory));
-        commandManager.RegisterCommand(new DeclineGameCommand(serviceScopeFactory));
-        commandManager.RegisterCommand(new StopSearchingGameCommand(serviceScopeFactory));
+
+        using var scope = _serviceScopeFactory.CreateScope();
+        var commands = scope.ServiceProvider.GetServices<IBotCommand>();
+        foreach (var command in commands) 
+        { 
+            commandManager.RegisterCommand(command);
+        }
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)

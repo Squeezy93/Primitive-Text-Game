@@ -10,4 +10,17 @@ public class Game : EntityBase<Guid>
     public User Winner { get; set; }
     public Guid? WinnerId { get; set; }
     public List<History> Histories { get; set; }
+
+    public Game(List<User> players)
+    {
+        StartDate = DateTime.UtcNow;
+        EndDate = DateTime.UtcNow;
+        Users = players;
+        Histories = new List<History>();        
+    }
+
+    private Game()
+    {
+
+    }
 }

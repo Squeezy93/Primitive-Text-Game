@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using PrimitiveTextGame.Telegram.Modules.Common;
-using PrimitiveTextGame.Telegram.Modules.Common.Extensions;
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Repositories;
+using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Services;
 using PrimitiveTextGame.Telegram.Modules.Games.Bot;
+using PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands;
 using PrimitiveTextGame.Telegram.Modules.Games.Data;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Repositories;
+using PrimitiveTextGame.Telegram.Modules.Games.Services;
 using Telegram.Bot;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games;
@@ -20,18 +22,27 @@ public class GameModule : IModule
                 TelegramBotClientOptions options =
                     new TelegramBotClientOptions(configuration.GetSection("TelegramBot")["Token"]);
                 return new TelegramBotClient(options, httpClient);
-            });
-            
-        services.AddHostedService<BotProcess>();
+            });    
+        
+        services.AddHostedService<BotProcess>();   
         
         services.AddDbContext<ApplicationDataContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("PostgreSQLConnectionString")));
-            
+            options.UseNpgsql(configuration.GetConnectionString("PostgreSQLConnectionString")))
+            ;            
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICharacterRepository, CharacterRepository>();
         services.AddScoped<IArmorRepository, ArmorRepository>();
         services.AddScoped<IWeaponRepository, WeaponRepository>();
+        services.AddScoped<IGameRepository, GameRepository>();
+        services.AddScoped<IHistoryRepository, HistoryRepository>();
 
+        services.AddScoped<IGameService, GameService>();
+        services.AddSingleton<IGameStateService, GameStateService>();
+
+        services.Scan(scan => scan.FromAssemblyOf<IBotCommand>()
+            .AddClasses(classes => classes.AssignableTo<IBotCommand>())
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
         return services;
     }
 }
