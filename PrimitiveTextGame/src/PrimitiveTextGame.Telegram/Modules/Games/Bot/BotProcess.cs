@@ -1,4 +1,8 @@
+using System.Runtime.Caching;
+using Microsoft.Extensions.Caching.Memory;
 using PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands;
+using PrimitiveTextGame.Telegram.Modules.Games.Constants;
+using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Services;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -13,12 +17,17 @@ public class BotProcess
     private readonly ILogger<BotProcess> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private static readonly CommandRouter commandManager = new CommandRouter();
+    private readonly IMemoryCache _memoryCache;
 
-    public BotProcess(ITelegramBotClient telegramBotClient, ILogger<BotProcess> logger, IServiceScopeFactory serviceScopeFactory)
+    public BotProcess(ITelegramBotClient telegramBotClient,
+        ILogger<BotProcess> logger,
+        IServiceScopeFactory serviceScopeFactory,
+        IMemoryCache cache)
     {
         _telegramBotClient = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
+        _memoryCache = cache ??  throw new ArgumentNullException(nameof(cache));
 
         using var scope = _serviceScopeFactory.CreateScope();
         var commands = scope.ServiceProvider.GetServices<IBotCommand>();
@@ -34,6 +43,15 @@ public class BotProcess
         {
             AllowedUpdates = [UpdateType.Message, UpdateType.CallbackQuery]
         }, cancellationToken);
+
+        var options = new MemoryCacheEntryOptions
+        {
+            AbsoluteExpiration = ObjectCache.InfiniteAbsoluteExpiration,
+            SlidingExpiration = null
+        };
+        
+        _memoryCache.Set(TemplateConstants.Templates, TemplateConstants.TemplateDictionary, options);
+        
         _logger.LogInformation("Telegram bot started.");
         await Task.Delay(Timeout.Infinite, cancellationToken);
     }

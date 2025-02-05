@@ -45,7 +45,8 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Services
             }
             else
             {
-                await notificationService.SendWaitingForOpponent(user.UserTelegramId);
+                await notificationService.SendNotification(user.UserTelegramId,
+                    "Вы подтвердили участие. Ожидаем подтверждения от вашего оппонента");
             }
             return true;
         }       

@@ -42,6 +42,8 @@ public class GameModule : IModule
             .AddClasses(classes => classes.AssignableTo<IBotCommand>())
             .AsImplementedInterfaces()
             .WithScopedLifetime());
+        services.AddMemoryCache();
+        
         return services;
     }
 }

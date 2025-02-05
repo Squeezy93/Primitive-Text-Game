@@ -1,24 +1,39 @@
 ﻿using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Services;
 using PrimitiveTextGame.Telegram.Modules.Games.Models;
+using Scriban;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using User = PrimitiveTextGame.Telegram.Modules.Games.Models.User;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Implementations.Services
 {
     public class NotificationService : INotificationService
     {
         private readonly ITelegramBotClient _botClient;
+        private readonly ILogger<NotificationService> _logger;
 
-        public NotificationService(ITelegramBotClient telegramBotClient)
+        public NotificationService(ITelegramBotClient telegramBotClient, ILogger<NotificationService> logger)
         {
             _botClient = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        public async Task SendWaitingForOpponent(long userTelegramId)
+        
+        public async Task SendNotification(long userTelegramId, string template, object parameters = default, InlineKeyboardMarkup markup = default)
         {
-            await _botClient.SendMessage(userTelegramId, "Вы подтвердили участие. Ожидаем подтверждения от вашего оппонента.");
+            try
+            {
+                var templateMessage = Template.ParseLiquid(template);
+                var message = await templateMessage.RenderAsync(parameters);
+                await _botClient.SendMessage(userTelegramId, message, replyMarkup: markup);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error was occured during sending notification, Error messsage : {e.Message}");
+                throw;
+            }
         }
-
+        
         public async Task SendUserCreated(User user)
         {
             var inlineMarkup = GetMainMenuMarkup();
@@ -58,7 +73,7 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Implementations.Services
                 .AddNewRow()
                 .AddButton("Покинуть игру", "quit_game");
         }
-
+        
         public async Task SendNewCharacterSelection(long userTelegramId)
         {
             var inlineMarkup = new InlineKeyboardMarkup()
