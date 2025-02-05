@@ -8,10 +8,9 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
 {
     public class AcceptGameCommand : ServiceScopeFactoryBase, IBotCommand
     {
-        private readonly IGameService _gameService;
-        public AcceptGameCommand(IServiceScopeFactory serviceScopeFactory, IGameService gameService) : base(serviceScopeFactory)
+        
+        public AcceptGameCommand(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
         {
-            _gameService = gameService;
         }
 
         public string Prefix => "accept_game";
@@ -24,7 +23,9 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
             var ids = update.CallbackQuery.Data.Substring(Prefix.Length + 1).Split('_');
             var userId = long.Parse(ids[0]);
             var opponentId = long.Parse(ids[1]);
-            await _gameService.StartGame(userId, opponentId);
+            using var scope = ServiceScopeFactory.CreateAsyncScope();
+            var gameService = scope.ServiceProvider.GetRequiredService<IGameService>();
+            await gameService.StartGame(userId, opponentId);
             return true;
         }
     }

@@ -8,10 +8,8 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
 {
     public class AttackPlayerCommand : ServiceScopeFactoryBase, IBotCommand
     {
-        private readonly IGameService _gameService;
-        public AttackPlayerCommand(IServiceScopeFactory serviceScopeFactory, IGameService gameService) : base(serviceScopeFactory)
+        public AttackPlayerCommand(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
         {
-            _gameService = gameService;
         }
 
         public string Prefix => "attack";
@@ -31,8 +29,10 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
             var ids = update.CallbackQuery.Data.Substring(Prefix.Length + 1).Split('_');
             var weaponName = ids[0];
             var attackerId = long.Parse(ids[1]);
-            var defenderId = long.Parse(ids[2]);            
-            await _gameService.HandleAttackCommand(weaponName, attackerId, defenderId);
+            var defenderId = long.Parse(ids[2]);
+            using var scope = ServiceScopeFactory.CreateAsyncScope();
+            var turnService = scope.ServiceProvider.GetRequiredService<ITurnService>();
+            await turnService.NextTurn(weaponName, attackerId, defenderId);
             return true;
         }
     }

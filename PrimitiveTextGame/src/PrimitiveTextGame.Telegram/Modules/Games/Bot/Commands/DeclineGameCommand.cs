@@ -1,10 +1,10 @@
 ﻿using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Repositories;
+using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Services;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Specifications.UserSpecifications;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
 {
@@ -23,6 +23,7 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
 
             using var scope = ServiceScopeFactory.CreateAsyncScope();
             var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+            var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
             //извлечение айди игрока и оппонента
             var ids = update.CallbackQuery.Data.Substring(Prefix.Length + 1).Split('_');
             var userId = int.Parse(ids[0]);
@@ -39,18 +40,8 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
             userRepository.Update(user);
             await userRepository.SaveChangesAsync();
             //оповещение игроков о событии
-            var inlineMarkupForUser = new InlineKeyboardMarkup()
-                    .AddButton("Найти соперника", "search")
-                    .AddNewRow()
-                    .AddButton("Поменять персонажа", "change_player_character")
-                    .AddNewRow()
-                    .AddButton("Покинуть игру", "quit_game");
-            await botClient.SendMessage(user.UserTelegramId, "Вы отклонили игру. Что хотите сделать?",
-                replyMarkup: inlineMarkupForUser);
-            var inlineMarkupForOpponent = new InlineKeyboardMarkup()
-                .AddButton("Выйти из поиска", $"stop_searching");
-            await botClient.SendMessage(opponent.UserTelegramId, "Ваш соперник отклонил игру. Возвращаемся к поиску.",
-                replyMarkup: inlineMarkupForOpponent);
+            await notificationService.SendDeclineGame(userId);            
+            await notificationService.SendReturnToSearch(opponentId);
             return true;
         }
     }

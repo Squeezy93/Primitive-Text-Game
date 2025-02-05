@@ -1,10 +1,9 @@
 ﻿using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Repositories;
-using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Specifications.UserSpecifications;
+using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
 {
@@ -22,36 +21,19 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
             if (!update.CallbackQuery.Data.StartsWith(Prefix)) return false;
 
             using var scope = ServiceScopeFactory.CreateAsyncScope();
-            var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-            var user = await userRepository.GetAsync(new GetByUserTelegramIdSpecification(update.CallbackQuery.From.Id));
-            user.IsSearchingForGame = true;
-            userRepository.Update(user);
-            var random = new Random();
-            var opponent = (await userRepository.ListAsync(new FindUsersSearchingForGameSpecification(user))).OrderBy(op => random.Next()).FirstOrDefault();
-            if (opponent is not null && !opponent.IsPlayingGame) 
+            var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+            var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+            var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();            
+            var user = await userService.StartSearchingForGame(update.CallbackQuery.From.Id);
+            var opponent = await userService.FindOpponent(user);
+            if (opponent is not null)
             {
-                var inlineMarkupForUser = new InlineKeyboardMarkup()
-                    .AddButton("Да", $"accept_game_{user.UserTelegramId}_{opponent.UserTelegramId}")
-                    .AddNewRow()
-                    .AddButton("Нет", $"decline_game_{user.UserTelegramId}_{opponent.UserTelegramId}");
-                await botClient.SendMessage(user.UserTelegramId, $"Противник найден. Вы играете против {opponent.UserName}. Готовы к битве?",
-                    replyMarkup: inlineMarkupForUser);
-
-                var inlineMarkupForOpponent = new InlineKeyboardMarkup()
-                    .AddButton("Да", $"accept_game_{opponent.UserTelegramId}_{user.UserTelegramId}")
-                    .AddNewRow()
-                    .AddButton("Нет", $"decline_game_{opponent.UserTelegramId}_{user.UserTelegramId}");
-                await botClient.SendMessage(opponent.UserTelegramId, $"Противник найден. Вы играете против {user.UserName}. Готовы к битве?",
-                    replyMarkup: inlineMarkupForOpponent);
+                await notificationService.SendGameInvitation(user, opponent);
             }
             else
             {
-                var inlineMarkupForUser = new InlineKeyboardMarkup()
-                    .AddButton("Выйти из поиска", $"stop_searching_{user.UserTelegramId}");
-                await botClient.SendMessage(user.UserTelegramId, $"Вы встали в поиск. Скоро противник найдется :)",
-                    replyMarkup: inlineMarkupForUser);
+                await notificationService.SendStartSearching(user.UserTelegramId);                
             }
-            await userRepository.SaveChangesAsync();
             return true;
         }
     }
