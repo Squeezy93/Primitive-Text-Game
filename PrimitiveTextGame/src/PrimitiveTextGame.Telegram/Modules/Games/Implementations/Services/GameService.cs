@@ -1,6 +1,8 @@
-﻿using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
+﻿using Microsoft.Extensions.Caching.Memory;
+using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Repositories;
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Services;
+using PrimitiveTextGame.Telegram.Modules.Games.Constants;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Specifications.UserSpecifications;
 using PrimitiveTextGame.Telegram.Modules.Games.Models;
 using Telegram.Bot;
@@ -10,10 +12,22 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Services
     public class GameService : ServiceScopeFactoryBase, IGameService
     {
         private readonly ITelegramBotClient _botClient;
+        private readonly IMemoryCache _memoryCache;
+        private readonly Dictionary<string, string> _messagesTemplateDictionary;
 
-        public GameService(ITelegramBotClient telegramBotClient, IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
+        public GameService(ITelegramBotClient telegramBotClient, IServiceScopeFactory serviceScopeFactory, IMemoryCache memoryCache) : base(serviceScopeFactory)
         {
             _botClient = telegramBotClient;
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            if (_memoryCache.TryGetValue(TemplateConstants.MessagesTemplate, out var messagesTemplate))
+            {
+                var value = messagesTemplate as Dictionary<string, string>;
+                if (value != null)
+                {
+                    _messagesTemplateDictionary = value;
+                }
+                //TODO: надо подумать на случай если нет в кэше что делать
+            }
         }
         public async Task<bool> StartGame(long userId, long opponentId)
         {
@@ -45,8 +59,8 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Services
             }
             else
             {
-                await notificationService.SendNotification(user.UserTelegramId,
-                    "Вы подтвердили участие. Ожидаем подтверждения от вашего оппонента");
+                var template = _messagesTemplateDictionary[TemplateConstants.WaitingForOpponent];
+                await notificationService.SendNotification(user.UserTelegramId, template);
             }
             return true;
         }       

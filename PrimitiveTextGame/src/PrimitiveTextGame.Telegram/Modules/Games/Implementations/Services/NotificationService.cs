@@ -2,7 +2,6 @@
 using PrimitiveTextGame.Telegram.Modules.Games.Models;
 using Scriban;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using User = PrimitiveTextGame.Telegram.Modules.Games.Models.User;
 
@@ -33,7 +32,7 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Implementations.Services
                 throw;
             }
         }
-        
+
         public async Task SendUserCreated(User user)
         {
             var inlineMarkup = GetMainMenuMarkup();

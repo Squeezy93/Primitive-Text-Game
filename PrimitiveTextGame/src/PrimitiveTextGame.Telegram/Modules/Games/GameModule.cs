@@ -27,6 +27,7 @@ public class GameModule : IModule
         services.AddHostedService<BotProcess>();        
         services.AddDbContext<ApplicationDataContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("PostgreSQLConnectionString")));            
+        services.AddMemoryCache();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICharacterRepository, CharacterRepository>();
         services.AddScoped<IArmorRepository, ArmorRepository>();
@@ -38,11 +39,12 @@ public class GameModule : IModule
         services.AddScoped<ITurnService, TurnService>();
         services.AddScoped<IUserService, UserService>();
         services.AddSingleton<IGameStateService, GameStateService>();
+        services.AddScoped<IParametersTemplateService, ParametersTemplateService>();
+        services.AddScoped<IMarkupTemplateService, MarkupTemplateService>();
         services.Scan(scan => scan.FromAssemblyOf<IBotCommand>()
             .AddClasses(classes => classes.AssignableTo<IBotCommand>())
             .AsImplementedInterfaces()
             .WithScopedLifetime());
-        services.AddMemoryCache();
         
         return services;
     }

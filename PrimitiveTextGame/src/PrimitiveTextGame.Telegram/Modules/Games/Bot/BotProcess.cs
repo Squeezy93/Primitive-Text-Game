@@ -16,8 +16,8 @@ public class BotProcess
     private readonly ITelegramBotClient _telegramBotClient;
     private readonly ILogger<BotProcess> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private static readonly CommandRouter commandManager = new CommandRouter();
     private readonly IMemoryCache _memoryCache;
+    private static readonly CommandRouter commandManager = new CommandRouter();
 
     public BotProcess(ITelegramBotClient telegramBotClient,
         ILogger<BotProcess> logger,
@@ -29,6 +29,15 @@ public class BotProcess
         _serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
         _memoryCache = cache ??  throw new ArgumentNullException(nameof(cache));
 
+        var cacheEntryOptions = new MemoryCacheEntryOptions
+        {
+            AbsoluteExpiration = ObjectCache.InfiniteAbsoluteExpiration,
+            SlidingExpiration = null
+        };
+        _memoryCache.Set(TemplateConstants.MessagesTemplate, TemplateConstants.MessagesTemplateDictionary, cacheEntryOptions);
+        _memoryCache.Set(TemplateConstants.ParametersTemplate, TemplateConstants.ParametersTemplatesDictionary, cacheEntryOptions);
+        _memoryCache.Set(TemplateConstants.InlineMarkupTemplate, TemplateConstants.InlineMarkupTemplatesDictionary, cacheEntryOptions);
+
         using var scope = _serviceScopeFactory.CreateScope();
         var commands = scope.ServiceProvider.GetServices<IBotCommand>();
         foreach (var command in commands) 
@@ -39,18 +48,11 @@ public class BotProcess
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        _telegramBotClient.StartReceiving(HandlerUpdateAsync, HandlerErrorAsync, new ReceiverOptions()
+        var recieverOptions = new ReceiverOptions
         {
             AllowedUpdates = [UpdateType.Message, UpdateType.CallbackQuery]
-        }, cancellationToken);
-
-        var options = new MemoryCacheEntryOptions
-        {
-            AbsoluteExpiration = ObjectCache.InfiniteAbsoluteExpiration,
-            SlidingExpiration = null
         };
-        
-        _memoryCache.Set(TemplateConstants.Templates, TemplateConstants.TemplateDictionary, options);
+        _telegramBotClient.StartReceiving(HandlerUpdateAsync, HandlerErrorAsync, recieverOptions, cancellationToken);
         
         _logger.LogInformation("Telegram bot started.");
         await Task.Delay(Timeout.Infinite, cancellationToken);

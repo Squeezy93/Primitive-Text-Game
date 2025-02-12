@@ -1,5 +1,6 @@
 ﻿using PrimitiveTextGame.Telegram.Modules.Games.Abstractions;
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Services;
+using PrimitiveTextGame.Telegram.Modules.Games.Constants;
 using PrimitiveTextGame.Telegram.Modules.Games.Models;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Implementations.Services
@@ -19,6 +20,10 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Implementations.Services
             var secondPlayer = players.FirstOrDefault(p => p != firstPlayer);
             using var scope = ServiceScopeFactory.CreateAsyncScope();
             var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+            var parametersTemplateService = scope.ServiceProvider.GetRequiredService<IParametersTemplateService>();
+            var markupTemplateService = scope.ServiceProvider.GetRequiredService<IMarkupTemplateService>();
+            var parameters = await parametersTemplateService.GetParametersAsync(TemplateConstants.FirstTurn, firstPlayer, secondPlayer);
+            var markup = await markupTemplateService.GetMarkupAsync(TemplateConstants.FirstTurn, parameters);
             await notificationService.SendFirstTurn(firstPlayer, secondPlayer);
             return true;
         }

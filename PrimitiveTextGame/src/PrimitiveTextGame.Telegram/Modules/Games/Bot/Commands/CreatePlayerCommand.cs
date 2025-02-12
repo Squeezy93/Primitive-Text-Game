@@ -12,17 +12,17 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
     public class CreatePlayerCommand : ServiceScopeFactoryBase, IBotCommand
     {
         private readonly IMemoryCache _memoryCache;
-        private readonly Dictionary<string, string> _templateDictionary;
+        private readonly Dictionary<string, string> _messagesTemplateDictionary;
 
         public CreatePlayerCommand(IServiceScopeFactory serviceScopeFactory, IMemoryCache memoryCache) : base(serviceScopeFactory)
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            if (_memoryCache.TryGetValue(TemplateConstants.Templates, out var templates))
+            if (_memoryCache.TryGetValue(TemplateConstants.MessagesTemplate, out var messagesTemplate))
             {
-                var value = templates as Dictionary<string, string>;
+                var value = messagesTemplate as Dictionary<string, string>;
                 if (value != null)
                 {
-                    _templateDictionary = value;
+                    _messagesTemplateDictionary = value;
                 }
                 //TODO: надо подумать на случай если нет в кэше что делать
             }
@@ -38,17 +38,14 @@ namespace PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands
             using var scope = ServiceScopeFactory.CreateAsyncScope();
             var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
             var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+            var parametersTemplateService = scope.ServiceProvider.GetRequiredService<IParametersTemplateService>();
+            var markupTemplateService = scope.ServiceProvider.GetRequiredService<IMarkupTemplateService>();
             var user = await userService.CreateNewUser(update);
-            var parameters = new { userName = user.UserName, characterName = user.Character.Name };
+            var template = _messagesTemplateDictionary[TemplateConstants.UserCreated];
+            var parameters = await parametersTemplateService.GetParametersAsync(TemplateConstants.UserCreated, user);
 
-            var markup = new InlineKeyboardMarkup()
-                .AddButton("Найти соперника", "search")
-                .AddNewRow()
-                .AddButton("Поменять персонажа", "choose_player_character")
-                .AddNewRow()
-                .AddButton("Покинуть игру", "quit_game");
-            await notificationService.SendNotification(user.UserTelegramId, _templateDictionary[TemplateConstants.UserCreated], parameters, markup);
-            
+            var markup = await markupTemplateService.GetMarkupAsync(TemplateConstants.UserCreated);
+            await notificationService.SendNotification(user.UserTelegramId, template, parameters, markup);            
             return true;
         }
     }
