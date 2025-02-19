@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using PrimitiveTextGame.Telegram.Modules.Common;
 using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Repositories;
@@ -5,6 +6,7 @@ using PrimitiveTextGame.Telegram.Modules.Games.Abstractions.Services;
 using PrimitiveTextGame.Telegram.Modules.Games.Bot;
 using PrimitiveTextGame.Telegram.Modules.Games.Bot.Commands;
 using PrimitiveTextGame.Telegram.Modules.Games.Data;
+using PrimitiveTextGame.Telegram.Modules.Games.Endpoints;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Repositories;
 using PrimitiveTextGame.Telegram.Modules.Games.Implementations.Services;
 using PrimitiveTextGame.Telegram.Modules.Games.Services;
@@ -24,7 +26,7 @@ public class GameModule : IModule
                     new TelegramBotClientOptions(configuration.GetSection("TelegramBot")["Token"]);
                 return new TelegramBotClient(options, httpClient);
             });       
-        services.AddHostedService<BotProcess>();        
+        services.ConfigureTelegramBot<Microsoft.AspNetCore.Http.Json.JsonOptions>(opt => opt.SerializerOptions);        
         services.AddDbContext<ApplicationDataContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("PostgreSQLConnectionString")));            
         services.AddMemoryCache();
@@ -38,14 +40,25 @@ public class GameModule : IModule
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<ITurnService, TurnService>();
         services.AddScoped<IUserService, UserService>();
-        services.AddSingleton<IGameStateService, GameStateService>();
+        services.AddSingleton<IGameStateService, GameStateService>();//TODO change lifetime scope
         services.AddScoped<IParametersTemplateService, ParametersTemplateService>();
         services.AddScoped<IMarkupTemplateService, MarkupTemplateService>();
         services.Scan(scan => scan.FromAssemblyOf<IBotCommand>()
             .AddClasses(classes => classes.AssignableTo<IBotCommand>())
             .AsImplementedInterfaces()
             .WithScopedLifetime());
+
+        services.AddScoped(typeof(BotProcessWebhook));
+        services.AddScoped(typeof(CommandRouter));
         
         return services;
+    }
+
+    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder routeBuilder, IConfiguration configuration)
+    {
+        routeBuilder.SetWebhook(configuration);
+        routeBuilder.UpdateMessage();
+
+        return routeBuilder;
     }
 }

@@ -4,14 +4,13 @@ using PrimitiveTextGame.Telegram.Modules.Games.Models;
 
 namespace PrimitiveTextGame.Telegram.Modules.Games.Data;
 
-public  static class DataSeed 
+public static class DataSeed 
 {
-    public static async Task SeedDataAsync(IServiceScopeFactory serviceScopeFactory)
+    public static async Task SeedDataAsync(
+        ICharacterRepository characterRepository,
+        IArmorRepository armorRepository,
+        IWeaponRepository weaponRepository)
     {
-        await using var scope = serviceScopeFactory.CreateAsyncScope();        
-        var characterRepository = scope.ServiceProvider.GetRequiredService<ICharacterRepository>();
-        var armorRepository = scope.ServiceProvider.GetRequiredService<IArmorRepository>();
-        var weaponRepository = scope.ServiceProvider.GetRequiredService<IWeaponRepository>();
 
         var characterExists = await characterRepository.IsExists(new AnyEntityExistsSpecification<Character>());
         if (!characterExists)
